@@ -27,7 +27,7 @@
   {
     "context": "logistify",
     "nameSpace": "XM",
-    "type": "ShiptoListItem",
+    "type": "CustomerShiptoListItem",
     "table": "lg.shiptolglogin",
     "isExtension": true,
     "isChild": false,
