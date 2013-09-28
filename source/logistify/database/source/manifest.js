@@ -7,6 +7,7 @@
   "databaseScripts": [
     "create_lg_schema.sql",
     "lglogin.sql",
+    "shiptolglogin.sql",
     "register.sql"
   ]
 }
