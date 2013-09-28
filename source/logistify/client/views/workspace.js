@@ -33,7 +33,7 @@ white:true*/
       responsesReceived = 0,
       lineItems = _.map(model.get("lineItems").models, function (model) {
         var clazz = model.getValue("item.freightClass.code"),
-          weight = model.getValue("item.productWeight");
+          weight = model.getValue("quantity") * model.getValue("item.productWeight");
 
         if (!_.contains(validClassesStrings, clazz)) {
           validationError = clazz + " is not a valid class";
@@ -54,31 +54,35 @@ white:true*/
 
     var popupDialog = function () {
       var callback = function (response) {
-        console.log("response", response);
+        var carrier = response.componentValue.carrier,
+          rate = response.componentValue.rate;
+
+        model.set("shipVia", carrier);
+        model.set("freight", rate);
       };
       var radiobuttonArray = _.map(carrierHash, function (carrier) {
         return {
           kind: "onyx.Checkbox",
+          carrier: carrier.code,
+          rate: carrier.rate,
           content: carrier.code + " " + carrier.rate,
           style: "display:block;width:auto;padding-left:35px;line-height:30px;margin: 0 6px 6px 6px;color:white;"
         };
       });
-      /*
-      console.log("popup dialog", carrierHash);
-      {kind: "Group", classes: "onyx-sample-tools group", onActivate:"groupActivated", highlander: true, components: [
-			{kind:"onyx.Checkbox", checked: true},
-			{kind:"onyx.Checkbox"},
-			{kind:"onyx.Checkbox"}
-		]},
-      */
+
       that.doNotify({
         message: "_chooseCarrier".loc(),
         callback: callback,
+        // TODO: the notify popup is not deleting out the old ones on subsequent clicks
         component: {
           kind: "Group",
           components: radiobuttonArray,
           getValue: function () {
-            return "value";
+            var selectedCheckbox = this.controls[0]; // TODO: find active
+            return {
+              carrier: selectedCheckbox.carrier,
+              rate: selectedCheckbox.rate
+            };
           }
         }
       });
@@ -97,7 +101,7 @@ white:true*/
 
 
     _.each(carrierHash, function (carrier) {
-      var scac = "foo";//carrier.scac; // TODO: real attribute
+      var scac = "foo";//carrier.scac; // TODO: use real attribute
       if (scac) {
         requestsMade++;
         getCarrierRate(carrier);
