@@ -1,7 +1,7 @@
 /*jshint indent:2, curly:true, eqeqeq:true, immed:true, latedef:true,
 newcap:true, noarg:true, regexp:true, undef:true, strict:true, trailing:true,
 white:true*/
-/*global XT:true, _:true, XV:true, XM:true, console:true, setTimeout:true, Globalize:true */
+/*global XT:true, enyo:true, _:true, XV:true, XM:true, console:true, setTimeout:true, Globalize:true */
 
 (function () {
   "use strict";
@@ -107,18 +107,24 @@ white:true*/
         toZip: toZip,
         scac: carrier.scac,
         // TODO: account number, username, password
-        lineItems: lineItems
+        lineItems: JSON.stringify(lineItems)
       };
       console.log("request", request);
-      //TODO: actually query lfy
-      // http://api.logistify.co/quote/pitd
-      setTimeout(function () {
+
+      var callback = function () {
         carrier.rate = 100 + Math.random() * 500;
         responsesReceived++;
         if (responsesReceived === requestsMade) {
           popupDialog();
         }
-      }, 3000);
+      };
+
+      var ajax = new enyo.Ajax({
+        url: "http://api.logistify.co/quote/" + carrier.scac,
+        response: callback
+      });
+
+      ajax.go(request);
     };
 
 
