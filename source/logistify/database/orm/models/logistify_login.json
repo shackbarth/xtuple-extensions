@@ -25,7 +25,7 @@
         }
       },
       {
-        "name": "accountNumber",
+        "name": "accountnumber",
         "attr": {
           "type": "String",
           "column": "lglogin_accountnumber",
