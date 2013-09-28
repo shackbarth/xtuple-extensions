@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "chai":"1.5.x",
+    "html5": "0.3.13",
     "mocha":"1.9.x",
     "zombie":"1.4.x"
   },
