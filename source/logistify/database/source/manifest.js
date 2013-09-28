@@ -6,8 +6,7 @@
   "dependencies": ["sales"],
   "databaseScripts": [
     "create_lg_schema.sql",
-    "lglogin.sql",
-    "shiptolglogin.sql",
+    "shipvialogin.sql",
     "register.sql"
   ]
 }
