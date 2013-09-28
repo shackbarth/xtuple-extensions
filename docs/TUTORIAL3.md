@@ -114,7 +114,7 @@ We use mocha for unit and integration testing, and you should run your ice cream
 To get your testing environment set up, you'll want to refer to [testing documentation](https://github.com/xtuple/xtuple/wiki/Testing-Setup). Make sure that you can run all the tests in the core `xtuple` directory. Once you can do that, then putting the `IceCream` model under test should follow the same process as our other objects. Enter the following code into the file `/path/to/xtuple-extensions/source/icecream/test/ice_cream_flavor.js`:
 
 ```javascript
-  var crud = require("../../../../xtuple/mocha/test/lib/crud"),
+  var crud = require("../../../../xtuple/test/mocha/lib/crud"),
     data = {
       recordType: "XM.IceCreamFlavor",
       autoTestAttributes: true,

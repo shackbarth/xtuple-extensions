@@ -1,23 +1,23 @@
 /*jshint indent:2, curly:true, eqeqeq:true, immed:true, latedef:true,
 newcap:true, noarg:true, regexp:true, undef:true, strict:true, trailing:true,
 white:true*/
-/*global XT:true, _:true, XV:true, XM:true, console:true, setTimeout:true */
+/*global XT:true, _:true, XV:true, XM:true, console:true, setTimeout:true, Globalize:true */
 
 (function () {
   "use strict";
 
+  // TODO: deal with 77.5 and 92.5
   var validClasses = [50, 55, 60, 65, 70, 77, 85, 92, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500],
     validClassesStrings = _.map(validClasses, function (clazz) {
       return "" + clazz;
     });
 
-
-
   XT.extensions.logistify.initWorkspace = function () {
     var extensions = [
       {kind: "onyx.Button", container: "shipViaCombobox", ontap: "logistify", components: [
         // TODO: use local version
-        {kind: "onyx.Icon", src: "http://upload.wikimedia.org/wikipedia/commons/4/46/IPA_capital_l.PNG"}
+        // TODO: the css to make the icon look ok
+        {kind: "onyx.Icon", src: "https://raw.github.com/logistify/www/master/images/logistify_icon_32.png"}
       ]}
     ];
     XV.appendExtension("XV.SalesOrderWorkspace", extensions);
@@ -26,9 +26,9 @@ white:true*/
   XV.SalesOrderWorkspace.prototype.logistify = function () {
     var that = this,
       model = this.value,
-      fromZip = "00000", // ???
+      fromZip = model.getValue("site.address.postalCode"),
       toZip = model.getValue("shipto.address.postalCode"),
-      validationError,
+      validationError = "",
       requestsMade = 0,
       responsesReceived = 0,
       lineItems = _.map(model.get("lineItems").models, function (model) {
@@ -36,7 +36,7 @@ white:true*/
           weight = model.getValue("quantity") * model.getValue("item.productWeight");
 
         if (!_.contains(validClassesStrings, clazz)) {
-          validationError = clazz + " is not a valid class";
+          validationError = validationError + clazz + "_invalidClass".loc();// is not a valid class. ";
         }
         return {
           class: clazz,
@@ -45,8 +45,17 @@ white:true*/
       }),
       carriers = XM.shipVias;
 
+    if (!toZip) {
+      // TODO: why is site.address null?
+      validationError = validationError + "_needShiptoWithPostalCode".loc(); //Your ship-to must have postal code. ";
+    }
+    if (!fromZip) {
+      validationError = validationError + "_needSiteWithPostalCode".loc(); //You must select a site with a postal code. ";
+    }
+
+
     if (validationError) {
-      console.log("Logistify error: " + validationError);
+      this.notify(model, "_logistifyError".loc() + ": " + validationError, {});
       return;
     }
 
@@ -65,7 +74,7 @@ white:true*/
           kind: "onyx.Checkbox",
           carrier: carrier.code,
           rate: carrier.rate,
-          content: carrier.code + " " + carrier.rate,
+          content: carrier.code + " " + Globalize.format(carrier.rate, "c"),
           style: "display:block;width:auto;padding-left:35px;line-height:30px;margin: 0 6px 6px 6px;color:white;"
         };
       });
@@ -89,7 +98,16 @@ white:true*/
     };
 
     var getCarrierRate = function (carrier) {
+      var request = {
+        fromZip: fromZip,
+        toZip: toZip,
+        scac: carrier.scac,
+        // TODO: account number, username, password
+        lineItems: lineItems
+      };
+      console.log("request", request);
       //TODO: actually query lfy
+      // http://logistify-rateserver.herokuapp.com/quote/pitd
       setTimeout(function () {
         carrier.rate = 100 + Math.random() * 500;
         responsesReceived++;
