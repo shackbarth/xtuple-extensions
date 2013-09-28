@@ -1,4 +1,4 @@
-var crud = require("../../../../xtuple/mocha/test/lib/crud"),
+var crud = require("../../../../xtuple/test/mocha/lib/crud"),
     data = {
       recordType: "XM.LogistifyLogin",
       autoTestAttributes: true,
