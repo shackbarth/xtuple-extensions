@@ -4,5 +4,9 @@
   "comment": "Open Source Logistics",
   "loadOrder": 200,
   "dependencies": ["sales"],
-  "databaseScripts": []
+  "databaseScripts": [
+    "create_lg_schema.sql",
+    "lglogin.sql",
+    "register.sql"
+  ]
 }
