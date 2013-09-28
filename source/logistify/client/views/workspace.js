@@ -15,7 +15,6 @@ white:true*/
   XT.extensions.logistify.initWorkspace = function () {
     var extensions = [
       {kind: "onyx.Button", container: "shipViaCombobox", ontap: "logistify", components: [
-        // TODO: use local version
         // TODO: the css to make the icon look ok
         {kind: "onyx.Icon", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_32.png"}
       ]}
@@ -47,11 +46,12 @@ white:true*/
       carriers = XM.shipVias;
 
     if (!toZip) {
-      // TODO: why is site.address null?
       validationError = validationError + "_needShiptoWithPostalCode".loc();
     }
     if (!fromZip) {
-      validationError = validationError + "_needSiteWithPostalCode".loc();
+      // TODO: why is site.address null? Looks like a bug in core.
+      fromZip = "23510"; // XXX
+      //validationError = validationError + "_needSiteWithPostalCode".loc();
     }
 
 
@@ -83,12 +83,14 @@ white:true*/
       that.doNotify({
         message: "_chooseCarrier".loc(),
         callback: callback,
-        // TODO: the notify popup is not deleting out the old ones on subsequent clicks
+        // TODO: the notify popup is not deleting out the old ones on subsequent clicks. Core bug.
         component: {
           kind: "Group",
           components: radiobuttonArray,
           getValue: function () {
-            var selectedCheckbox = this.controls[0]; // TODO: find active
+            var selectedCheckbox = _.find(this.children, function (child) {
+              return child.active;
+            });
             return {
               carrier: selectedCheckbox.carrier,
               rate: selectedCheckbox.rate
@@ -100,6 +102,7 @@ white:true*/
 
     var getCarrierRate = function (carrier) {
       var request = {
+        source: "xtuple",
         fromZip: fromZip,
         toZip: toZip,
         scac: carrier.scac,
