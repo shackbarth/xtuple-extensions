@@ -17,13 +17,14 @@ white:true*/
       {kind: "onyx.Button", container: "shipViaCombobox", ontap: "logistify", components: [
         // TODO: use local version
         // TODO: the css to make the icon look ok
-        {kind: "onyx.Icon", src: "https://raw.github.com/logistify/www/master/images/logistify_icon_32.png"}
+        {kind: "onyx.Icon", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_32.png"}
       ]}
     ];
     XV.appendExtension("XV.SalesOrderWorkspace", extensions);
   };
 
   XV.SalesOrderWorkspace.prototype.logistify = function () {
+    console.log(XT.getOrganizationPath() + "/client/assets/logistify_icon_32.png");
     var that = this,
       model = this.value,
       fromZip = model.getValue("site.address.postalCode"),
@@ -36,7 +37,7 @@ white:true*/
           weight = model.getValue("quantity") * model.getValue("item.productWeight");
 
         if (!_.contains(validClassesStrings, clazz)) {
-          validationError = validationError + clazz + "_invalidClass".loc();// is not a valid class. ";
+          validationError = validationError + "_invalidClass".loc() + ": " + clazz + " ";
         }
         return {
           class: clazz,
@@ -47,15 +48,15 @@ white:true*/
 
     if (!toZip) {
       // TODO: why is site.address null?
-      validationError = validationError + "_needShiptoWithPostalCode".loc(); //Your ship-to must have postal code. ";
+      validationError = validationError + "_needShiptoWithPostalCode".loc();
     }
     if (!fromZip) {
-      validationError = validationError + "_needSiteWithPostalCode".loc(); //You must select a site with a postal code. ";
+      validationError = validationError + "_needSiteWithPostalCode".loc();
     }
 
 
     if (validationError) {
-      this.notify(model, "_logistifyError".loc() + ": " + validationError, {});
+      this.notify(model, "_error".loc() + ": " + validationError, {});
       return;
     }
 
@@ -107,7 +108,7 @@ white:true*/
       };
       console.log("request", request);
       //TODO: actually query lfy
-      // http://logistify-rateserver.herokuapp.com/quote/pitd
+      // http://api.logistify.co/quote/pitd
       setTimeout(function () {
         carrier.rate = 100 + Math.random() * 500;
         responsesReceived++;
