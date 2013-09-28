@@ -92,8 +92,8 @@ white:true*/
               return child.active;
             });
             return {
-              carrier: selectedCheckbox.carrier,
-              rate: selectedCheckbox.rate
+              carrier: selectedCheckbox && selectedCheckbox.carrier,
+              rate: selectedCheckbox && selectedCheckbox.rate
             };
           }
         }
