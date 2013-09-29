@@ -79,7 +79,7 @@ trailing:true white:true*/
     ];
 
     XV.appendExtension("XV.TaskWorkspace", taskExtensions);
-    
+
     // ..........................................................
     // EMPLOYEE
     //

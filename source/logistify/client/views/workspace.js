@@ -134,4 +134,16 @@ white:true*/
     }
   };
 
+  XT.extensions.logistify.initWorkspace = function () {
+    var that = this,
+    extensions = [
+      {kind: "XV.InputWidget", attr: "accountNumber", container: "mainGroup"},
+      {kind: "XV.InputWidget", attr: "scac", container: "mainGroup"},
+      {kind: "XV.InputWidget", attr: "username", container: "mainGroup"},
+      {kind: "XV.InputWidget", attr: "password", container: "mainGroup"}
+    ];
+
+    XV.appendExtension("XV.ShipViaWorkspace", extensions);
+  };
+
 }());
