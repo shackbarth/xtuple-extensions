@@ -21,9 +21,9 @@ white:true*/
 
   XT.extensions.logistify.initWorkspace = function () {
     var extensions = [
-      {kind: "onyx.Button", container: "shipViaCombobox", ontap: "logistify", components: [
+      {kind: "onyx.Button", style: "padding: 3px 5px;", container: "shipViaCombobox", ontap: "logistify", components: [
         // TODO: the css to make the icon look ok
-        {kind: "onyx.Icon", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_32.png"}
+        {kind: "onyx.Icon", style: "width: 16px; height: 16px", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_16.png"}
       ]}
     ];
     XV.appendExtension("XV.SalesOrderWorkspace", extensions);
@@ -156,6 +156,16 @@ white:true*/
     if (requestsMade === 0) {
       popupDialog();
     }
+  };
+
+  XT.extensions.logistify.initSetupWorkspace = function () {
+    var extensions = [
+      {kind: "XV.InputWidget", attr: "accountNumber", container: "mainGroup"},
+      {kind: "XV.InputWidget", attr: "scac", container: "mainGroup"},
+      {kind: "XV.InputWidget", attr: "username", container: "mainGroup"},
+      {kind: "XV.InputWidget", attr: "password", container: "mainGroup"}
+    ];
+    XV.appendExtension("XV.ShipViaWorkspace", extensions);
   };
 
 }());
