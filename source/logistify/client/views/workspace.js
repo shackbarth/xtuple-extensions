@@ -1,12 +1,19 @@
 /*jshint indent:2, curly:true, eqeqeq:true, immed:true, latedef:true,
 newcap:true, noarg:true, regexp:true, undef:true, strict:true, trailing:true,
 white:true*/
-/*global XT:true, _:true, XV:true, XM:true, console:true, setTimeout:true, Globalize:true */
+/*global XT:true, enyo:true, _:true, XV:true, XM:true, console:true, setTimeout:true, Globalize:true */
 
 (function () {
   "use strict";
 
   // TODO: deal with 77.5 and 92.5
+  // TODO: core bug: it's not possible to remove a ship-to from a customer
+  // TODO: core bug: the shipto address doesn't get filled in automatically
+  //   until you click a new line item, at which point it fills in the wrong
+  //   address (walnut hills instead of alexandria)
+  // TODO: why is site.address null? Looks like a bug in core.
+
+
   var validClasses = [50, 55, 60, 65, 70, 77, 85, 92, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500],
     validClassesStrings = _.map(validClasses, function (clazz) {
       return "" + clazz;
@@ -15,7 +22,8 @@ white:true*/
   XT.extensions.logistify.initWorkspace = function () {
     var extensions = [
       {kind: "onyx.Button", style: "padding: 3px 5px;", container: "shipViaCombobox", ontap: "logistify", components: [
-        {kind: "onyx.Icon", style: "width: 16px;", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_16.png"}
+        // TODO: the css to make the icon look ok
+        {kind: "onyx.Icon", style: "width: 16px; height: 16px", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_16.png"}
       ]}
     ];
     XV.appendExtension("XV.SalesOrderWorkspace", extensions);
@@ -45,11 +53,11 @@ white:true*/
       carriers = XM.shipVias;
 
     if (!toZip) {
-      // TODO: why is site.address null?
       validationError = validationError + "_needShiptoWithPostalCode".loc();
     }
     if (!fromZip) {
-      validationError = validationError + "_needSiteWithPostalCode".loc();
+      fromZip = "23510"; // XXX
+      //validationError = validationError + "_needSiteWithPostalCode".loc();
     }
 
 
@@ -62,6 +70,9 @@ white:true*/
 
     var popupDialog = function () {
       var callback = function (response) {
+        if (!response.componentValue) {
+          return;
+        }
         var carrier = response.componentValue.carrier,
           rate = response.componentValue.rate;
 
@@ -73,6 +84,7 @@ white:true*/
           kind: "onyx.Checkbox",
           carrier: carrier.code,
           rate: carrier.rate,
+          // TODO: rates don't line up vertically
           content: carrier.code + " " + Globalize.format(carrier.rate, "c"),
           style: "display:block;width:auto;padding-left:35px;line-height:30px;margin: 0 6px 6px 6px;color:white;"
         };
@@ -81,12 +93,16 @@ white:true*/
       that.doNotify({
         message: "_chooseCarrier".loc(),
         callback: callback,
-        // TODO: the notify popup is not deleting out the old ones on subsequent clicks
         component: {
           kind: "Group",
           components: radiobuttonArray,
           getValue: function () {
-            var selectedCheckbox = this.controls[0]; // TODO: find active
+            var selectedCheckbox = _.find(this.children, function (child) {
+              return child.active;
+            });
+            if (!selectedCheckbox) {
+              return false;
+            }
             return {
               carrier: selectedCheckbox.carrier,
               rate: selectedCheckbox.rate
@@ -98,22 +114,32 @@ white:true*/
 
     var getCarrierRate = function (carrier) {
       var request = {
+        source: "xtuple",
         fromZip: fromZip,
         toZip: toZip,
         scac: carrier.scac,
         // TODO: account number, username, password
-        lineItems: lineItems
+        lineItems: JSON.stringify(lineItems)
       };
       console.log("request", request);
-      //TODO: actually query lfy
-      // http://api.logistify.co/quote/pitd
-      setTimeout(function () {
+
+      var callback = function () {
+        // TODO: use the rate from the response
         carrier.rate = 100 + Math.random() * 500;
         responsesReceived++;
         if (responsesReceived === requestsMade) {
           popupDialog();
         }
-      }, 3000);
+      };
+
+      var ajax = new enyo.Ajax({
+        url: "http://api.logistify.co/quote/" + carrier.scac,
+        response: callback
+      });
+
+      // TODO: use the API
+      //ajax.go(request);
+      callback();
     };
 
 
