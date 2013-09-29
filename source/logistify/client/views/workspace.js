@@ -118,7 +118,9 @@ white:true*/
         fromZip: fromZip,
         toZip: toZip,
         scac: carrier.scac,
-        // TODO: account number, username, password
+        accountNumber: carrier.accountNumber,
+        username: carrier.username,
+        password: carrier.password,
         lineItems: JSON.stringify(lineItems)
       };
       console.log("request", request);
@@ -144,7 +146,7 @@ white:true*/
 
 
     _.each(carrierHash, function (carrier) {
-      var scac = "foo";//carrier.scac; // TODO: use real attribute
+      var scac = carrier.scac;
       if (scac) {
         requestsMade++;
         getCarrierRate(carrier);
