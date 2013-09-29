@@ -30,7 +30,6 @@ white:true*/
   };
 
   XV.SalesOrderWorkspace.prototype.logistify = function () {
-    console.log(XT.getOrganizationPath() + "/client/assets/logistify_icon_32.png");
     var that = this,
       model = this.value,
       fromZip = model.getValue("site.address.postalCode"),
@@ -84,8 +83,8 @@ white:true*/
           kind: "onyx.Checkbox",
           carrier: carrier.code,
           rate: carrier.rate,
-          // TODO: rates don't line up vertically
-          content: carrier.code + " " + Globalize.format(carrier.rate, "c"),
+          content: '<span style="color:#9CBA74;">' + Globalize.format(carrier.rate, "c") + '</span> ' + carrier.code,
+          allowHtml: true,
           style: "display:block;width:auto;padding-left:35px;line-height:30px;margin: 0 6px 6px 6px;color:white;"
         };
       });
@@ -123,11 +122,9 @@ white:true*/
         password: carrier.password,
         lineItems: JSON.stringify(lineItems)
       };
-      console.log("request", request);
 
-      var callback = function () {
-        // TODO: use the rate from the response
-        carrier.rate = 100 + Math.random() * 500;
+      var ajaxCallback = function (inSender, inResponse) {
+        carrier.rate = inResponse.quote;
         responsesReceived++;
         if (responsesReceived === requestsMade) {
           popupDialog();
@@ -135,13 +132,11 @@ white:true*/
       };
 
       var ajax = new enyo.Ajax({
-        url: "http://api.logistify.co/quote/" + carrier.scac,
-        response: callback
+        url: "http://api.logistify.co/quote/" + carrier.scac
       });
 
-      // TODO: use the API
-      //ajax.go(request);
-      callback();
+      ajax.response(ajaxCallback);
+      ajax.go(request);
     };
 
 
@@ -151,7 +146,7 @@ white:true*/
         requestsMade++;
         getCarrierRate(carrier);
       } else {
-
+        // do nothing
       }
     });
 
