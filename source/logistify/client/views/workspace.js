@@ -64,6 +64,9 @@ white:true*/
 
     var popupDialog = function () {
       var callback = function (response) {
+        if (!response.componentValue) {
+          return;
+        }
         var carrier = response.componentValue.carrier,
           rate = response.componentValue.rate;
 
@@ -75,6 +78,7 @@ white:true*/
           kind: "onyx.Checkbox",
           carrier: carrier.code,
           rate: carrier.rate,
+          // TODO: rates don't line up vertically
           content: carrier.code + " " + Globalize.format(carrier.rate, "c"),
           style: "display:block;width:auto;padding-left:35px;line-height:30px;margin: 0 6px 6px 6px;color:white;"
         };
@@ -83,7 +87,6 @@ white:true*/
       that.doNotify({
         message: "_chooseCarrier".loc(),
         callback: callback,
-        // TODO: the notify popup is not deleting out the old ones on subsequent clicks. Core bug.
         component: {
           kind: "Group",
           components: radiobuttonArray,
@@ -91,9 +94,12 @@ white:true*/
             var selectedCheckbox = _.find(this.children, function (child) {
               return child.active;
             });
+            if (!selectedCheckbox) {
+              return false;
+            }
             return {
-              carrier: selectedCheckbox && selectedCheckbox.carrier,
-              rate: selectedCheckbox && selectedCheckbox.rate
+              carrier: selectedCheckbox.carrier,
+              rate: selectedCheckbox.rate
             };
           }
         }
@@ -112,6 +118,7 @@ white:true*/
       console.log("request", request);
 
       var callback = function () {
+        // TODO: use the rate from the response
         carrier.rate = 100 + Math.random() * 500;
         responsesReceived++;
         if (responsesReceived === requestsMade) {
@@ -124,7 +131,9 @@ white:true*/
         response: callback
       });
 
-      ajax.go(request);
+      // TODO: use the API
+      //ajax.go(request);
+      callback();
     };
 
 
