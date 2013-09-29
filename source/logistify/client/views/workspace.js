@@ -20,13 +20,29 @@ white:true*/
     });
 
   XT.extensions.logistify.initWorkspace = function () {
+    // XXX it works, so yell at me later -tjw
+    var interval = setInterval(function () {
+      var container = XT.app.$.postbooks.getActive(),
+        workspace = container.$.workspace || { };
+
+      if (workspace.kind !== "XV.SalesOrderWorkspace" ||
+        workspace.$.shipViaCombobox.$.injectionPoint.children.length > 0) return;
+
+      workspace.$.shipViaCombobox.$.injectionPoint.createComponent({kind: "onyx.Button", style: "padding: 3px 5px; vertical-align: -55%; margin-left: 6px;",
+        ontap: "logistify", owner: workspace, components: [
+          {kind: "onyx.Icon", style: "width: 24px; height: 24px", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_24.png"}
+      ]});
+      workspace.render();
+    }, 500);
+    /*
     var extensions = [
-      {kind: "onyx.Button", style: "padding: 3px 5px;", container: "shipViaCombobox", ontap: "logistify", components: [
-        // TODO: the css to make the icon look ok
-        {kind: "onyx.Icon", style: "width: 16px; height: 16px", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_16.png"}
+      {kind: "onyx.Button", container: "injectionPoint", style: "padding: 3px 5px; vertical-align: -55%; margin-left: 6px;",
+        ontap: "logistify", owner: XT.app.$.postbooks.getActive(), components: [
+          {kind: "onyx.Icon", style: "width: 24px; height: 24px", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_24.png"}
       ]}
     ];
     XV.appendExtension("XV.SalesOrderWorkspace", extensions);
+    */
   };
 
   XV.SalesOrderWorkspace.prototype.logistify = function () {
