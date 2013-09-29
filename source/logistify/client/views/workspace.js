@@ -7,6 +7,13 @@ white:true*/
   "use strict";
 
   // TODO: deal with 77.5 and 92.5
+  // TODO: core bug: it's not possible to remove a ship-to from a customer
+  // TODO: core bug: the shipto address doesn't get filled in automatically
+  //   until you click a new line item, at which point it fills in the wrong
+  //   address (walnut hills instead of alexandria)
+  // TODO: why is site.address null? Looks like a bug in core.
+
+
   var validClasses = [50, 55, 60, 65, 70, 77, 85, 92, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500],
     validClassesStrings = _.map(validClasses, function (clazz) {
       return "" + clazz;
@@ -49,7 +56,6 @@ white:true*/
       validationError = validationError + "_needShiptoWithPostalCode".loc();
     }
     if (!fromZip) {
-      // TODO: why is site.address null? Looks like a bug in core.
       fromZip = "23510"; // XXX
       //validationError = validationError + "_needSiteWithPostalCode".loc();
     }
