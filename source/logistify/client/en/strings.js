@@ -5,3 +5,7 @@ var lang = XT.stringsFor("en_US", {
     "_needSiteWithPostalCode": "You must select a site with a postal code. ",
     "_scac": "SCAC"
 });
+
+if (typeof exports !== 'undefined') {
+  exports.language = lang;
+}
