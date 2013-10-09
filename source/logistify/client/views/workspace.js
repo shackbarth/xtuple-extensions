@@ -20,14 +20,16 @@ white:true*/
     });
 
   XT.extensions.logistify.initWorkspace = function () {
-      var extensions = [
-        {kind: "onyx.Button", addBefore: null, style: "float: left; padding: 3px 5px; margin: 5px;",
-          container: "shipViaCombobox", ontap: "logistify", components: [
-            {kind: "onyx.Icon", style: "width: 24px; height: 24px", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_24.png"}
-          ]}
-        ];
-      XV.appendExtension("XV.SalesOrderWorkspace", extensions);
-    };
+    var extensions = [
+      {kind: "onyx.Button", addBefore: null, style: "position: relative; z-index: 10; float: left; padding: 3px 5px; margin: 5px;",
+        container: "shipViaCombobox", ontap: "logistify", components: [
+          {kind: "onyx.Icon", style: "width: 24px; height: 24px", src: XT.getOrganizationPath() + "/xtuple-extensions/source/logistify/client/assets/logistify_icon_24.png"}
+        ]},
+        // fix to keep next widget in workspace from moving right
+        {style: "clear: both;", container: "shipViaCombobox"}
+      ];
+    XV.appendExtension("XV.SalesOrderWorkspace", extensions);
+  };
 
   XV.SalesOrderWorkspace.prototype.logistify = function () {
     var that = this,
