@@ -1,4 +1,12 @@
-var lang = XT.stringsFor("en_US", {
+/*jshint node:true, indent:2, curly:false, eqeqeq:true, immed:true,
+latedef:true, newcap:true, noarg:true, regexp:true, undef:true,
+strict:true, trailing:true, white:true */
+/*global XT:true */
+
+(function () {
+  "use strict";
+
+  var lang = XT.stringsFor("en_US", {
     "_authURI": "Auth URI",
     "_clientName": "Client Name",
     "_clientEmail": "Client Email",
@@ -28,4 +36,9 @@ var lang = XT.stringsFor("en_US", {
     "_webServer": "Web Server",
     "_website": "Website",
     "_x509PubCert": "X.509 Public Key Certificate"
-});
+  });
+
+  if (typeof exports !== 'undefined') {
+    exports.language = lang;
+  }
+}());

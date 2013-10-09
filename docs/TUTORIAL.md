@@ -379,6 +379,10 @@ enyo.depends(
 
 and uncomment `en` as an entry in the file `/path/to/xtuple-extensions/source/icecream/client/package.js` array.
 
+Starting in version 1.4.6, you will not need to reference this file in the package.js system. Both the build tool 
+and the debug mode will know to look for it in `en/strings.js`. When you're in production mode
+these strings will be served out of the database; this makes possible multi-language support.
+
 **Verify** your work by rebuilding the extension:
 
 ```bash
