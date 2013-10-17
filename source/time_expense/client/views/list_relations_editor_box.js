@@ -41,20 +41,20 @@ trailing:true white:true*/
           classes: "in-panel", components: [
           {kind: "XV.InputWidget", attr: "lineNumber"},
           {kind: "XV.DateWidget", attr: "workDate"},
-          {kind: "XV.TaskWidget", attr: "task"},
-          {kind: "onyx.GroupboxHeader", content: "_billing".loc()},
-          {kind: "XV.CustomerWidget", attr: "customer"},
-          {kind: "XV.InputWidget", attr: "purchaseOrderNumber",
-            label: "_custPo".loc()},
+          {kind: "XV.QuantityWidget", attr: "hours"},
           {kind: "onyx.GroupboxHeader", content: "_detail".loc()},
+          {kind: "XV.TaskWidget", attr: "task"},
           {kind: "XV.ItemWidget", attr: "item",
             query: {parameters: [
             {attribute: "projectExpenseMethod", operator: "ANY",
               value: [XM.Item.EXPENSE_BY_CATEGORY, XM.Item.EXPENSE_BY_ACCOUNT] },
             {attribute: "isActive", value: true}
           ]}},
-          {kind: "XV.QuantityWidget", attr: "hours"},
+          {kind: "onyx.GroupboxHeader", content: "_billing".loc()},
           {kind: "XV.CheckboxWidget", attr: "billable"},
+          {kind: "XV.CustomerWidget", attr: "customer"},
+          {kind: "XV.InputWidget", attr: "purchaseOrderNumber",
+            label: "_custPo".loc()},
           {kind: "XV.MoneyWidget",
             attr: {localValue: "billingRate", currency: "billingCurrency"},
             label: "_rate".loc() },
@@ -80,7 +80,16 @@ trailing:true white:true*/
       title: "_time".loc(),
       editor: "XV.WorksheetTimeEditor",
       parentKey: "worksheet",
-      listRelations: "XV.WorksheetTimeListRelations"
+      listRelations: "XV.WorksheetTimeListRelations",
+      /**
+        Copies current task into next entry if applicable.
+      */
+      newItem: function () {
+        var widget = this.$.editor.$.taskWidget,
+          task = widget.getValue();
+        this.inherited(arguments);
+        if (task) { widget.setValue(task); }
+      }
     });
 
     enyo.kind({
@@ -91,26 +100,27 @@ trailing:true white:true*/
           classes: "in-panel", components: [
           {kind: "XV.InputWidget", attr: "lineNumber"},
           {kind: "XV.DateWidget", attr: "workDate"},
-          {kind: "XV.TaskWidget", attr: "task"},
-          {kind: "onyx.GroupboxHeader", content: "_billing".loc()},
-          {kind: "XV.CustomerWidget", attr: "customer"},
-          {kind: "XV.InputWidget", attr: "purchaseOrderNumber",
-            label: "_custPo".loc()},
+          {kind: "XV.QuantityWidget", attr: "quantity"},
+          {kind: "XV.MoneyWidget",
+            attr: {localValue: "unitCost", currency: "billingCurrency"},
+            label: "_unitCost".loc() },
+          {kind: "XV.MoneyWidget",
+            attr: {localValue: "billingTotal", currency: "billingCurrency"},
+            label: "_total".loc(), currencyDisabled: true },
+          {kind: "XV.CheckboxWidget", attr: "prepaid"},
           {kind: "onyx.GroupboxHeader", content: "_detail".loc()},
+          {kind: "XV.TaskWidget", attr: "task"},
           {kind: "XV.ItemWidget", attr: "item",
             query: {parameters: [
             {attribute: "projectExpenseMethod", operator: "ANY",
               value: [XM.Item.EXPENSE_BY_CATEGORY, XM.Item.EXPENSE_BY_ACCOUNT] },
             {attribute: "isActive", value: true}
           ]}},
-          {kind: "XV.QuantityWidget", attr: "quantity"},
+          {kind: "onyx.GroupboxHeader", content: "_billing".loc()},
           {kind: "XV.CheckboxWidget", attr: "billable"},
-          {kind: "XV.MoneyWidget",
-            attr: {localValue: "unitCost", currency: "billingCurrency"},
-            label: "_rate".loc() },
-          {kind: "XV.MoneyWidget",
-            attr: {localValue: "billingTotal", currency: "billingCurrency"},
-            label: "_total".loc(), currencyDisabled: true },
+          {kind: "XV.CustomerWidget", attr: "customer"},
+          {kind: "XV.InputWidget", attr: "purchaseOrderNumber",
+            label: "_custPo".loc()},
           {kind: "onyx.GroupboxHeader", content: "_notes".loc()},
           {kind: "XV.TextArea", attr: "notes", fit: true}
         ]}
@@ -123,7 +133,16 @@ trailing:true white:true*/
       title: "_expenses".loc(),
       editor: "XV.WorksheetExpenseEditor",
       parentKey: "worksheet",
-      listRelations: "XV.WorksheetExpenseListRelations"
+      listRelations: "XV.WorksheetExpenseListRelations",
+      /**
+        Copies current task into next entry if applicable.
+      */
+      newItem: function () {
+        var widget = this.$.editor.$.taskWidget,
+          task = widget.getValue();
+        this.inherited(arguments);
+        if (task) { widget.setValue(task); }
+      }
     });
 
   };

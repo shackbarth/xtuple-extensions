@@ -30,6 +30,7 @@ strict:true, trailing:true, white:true */
     "_TE": "Time Expense",
     "_tE": "Time Expense",
     "_posted": "Posted",
+    "_prepaid": "Prepaid",
     "_projectBilling": "Project Billing",
     "_rate": "Rate",
     "_site": "Site",

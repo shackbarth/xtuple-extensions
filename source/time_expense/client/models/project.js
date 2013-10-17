@@ -15,6 +15,7 @@ white:true*/
     var _proto = XM.Project.prototype,
       _bindEvents = _proto.bindEvents,
       _statusDidChange = _proto.statusDidChange,
+      _used = XM.Project.used,
       _specifiedSetReadOnly = function () {
         var spec = this.get("isSpecifiedRate");
         this.setReadOnly("billingRate", !spec);
@@ -50,6 +51,25 @@ white:true*/
       }
 
     });
+
+    /**
+      Check to see if any worksheets use project since that isn't
+      captured by usual algorithm. If not, run the normal check.
+    */
+    XM.Project.used = function (id, options) {
+      var that = this,
+        dispOptions = {
+        success: function (resp) {
+          if (resp) {
+            options.success(resp);
+          } else {
+            _used.call(that, id, options);
+          }
+        }
+      };
+      XM.ModelMixin.dispatch('XM.Project', 'worksheetUsed',
+      [id], dispOptions);
+    };
     
     // ..........................................................
     // PROJECT TASK

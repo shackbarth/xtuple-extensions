@@ -1,7 +1,7 @@
-/*jshint bitwise:true, indent:2, curly:true eqeqeq:true, immed:true,
+/*jshint bitwise:true, indent:2, curly:true, eqeqeq:true, immed:true,
 latedef:true, newcap:true, noarg:true, regexp:true, undef:true,
-trailing:true white:true*/
-/*global XT:true, XM:true, XV:true, _:true, window: true, enyo:true, Globalize:true*/
+trailing:true, white:true, strict: false*/
+/*global XT:true, XM:true, XV:true, enyo:true, Globalize:true*/
 
 (function () {
 
@@ -16,6 +16,7 @@ trailing:true white:true*/
       kind: "XV.List",
       label: "_worksheets".loc(),
       collection: "XM.WorksheetListItemCollection",
+      multiSelect: true,
       handlers: {
         onSelect: "menuItemSelected"
       },
@@ -66,7 +67,7 @@ trailing:true white:true*/
         var invoiced = model.get("invoiced");
         if (!value && invoiced) { return "_invoiced".loc(); }
         view.addRemoveClass("placeholder", invoiced !== false);
-        var scale = XT.session.locale.attributes.currencyScale;
+        var scale = XT.locale.currencyScale;
         return invoiced === false ? Globalize.format(value, "c" + scale) : "_noInvoice".loc();
       },
       formatPosted: function (value) {
@@ -82,7 +83,7 @@ trailing:true white:true*/
         var vouchered = model.get("vouchered");
         if (!value && vouchered) { return "_vouchered".loc(); }
         view.addRemoveClass("placeholder", !value);
-        var scale = XT.session.locale.attributes.currencyScale;
+        var scale = XT.locale.currencyScale;
         return value ? Globalize.format(value, "c" + scale) : "_noVoucher".loc();
       }
     });

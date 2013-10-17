@@ -61,6 +61,8 @@ white:true*/
       bindEvents: function () {
         XM.Document.prototype.bindEvents.apply(this, arguments);
         this.on("change:employee", this.employeeDidChange);
+        this.get("time").on("relational:remove", this.renumberLines, this);
+        this.get("expenses").on("relational:remove", this.renumberLines, this);
       },
 
       readOnlyAttributes: [
@@ -153,6 +155,32 @@ white:true*/
         };
         this.dispatch("XM.Worksheet", "fetchNumber", null, options);
         return this;
+      },
+
+      renumberLines: function () {
+        var time = this.get("time"),
+          expenses = this.get("expenses"),
+          renumber = function (models) {
+            var lineNumber = 1;
+            _.each(models, function (model) {
+              if (!model.isDestroyed()) {
+                model.set("lineNumber", lineNumber);
+                lineNumber++;
+              }
+            });
+          };
+
+        // We've got a relational binding that could
+        // bring us here that, unfortunately, doesn't
+        // honor the `silence` option. So check manually.
+        if (!this.isReady()) { return; }
+
+        time.sort();
+        expenses.sort();
+        
+        // Renumber time and expenses
+        renumber(this.get("time").models);
+        renumber(this.get("expenses").models);
       },
 
       statusDidChange: function () {
@@ -254,6 +282,11 @@ white:true*/
           i;
         this.setReadOnly("billingRate", !billable);
         if (!XT.session.privileges.get("CanViewRates")) { return; }
+
+        // Keep track of requests, we'll ignore stale ones
+        this._counter = _.isNumber(this._counter) ? this._counter + 1 : 0;
+        i = this._counter;
+
         if (billable) {
           params = {
             isTime: this.isTime,
@@ -263,10 +296,6 @@ white:true*/
             customerId: customer ? customer.id : undefined,
             itemId: item ? item.id : undefined
           };
-
-          // Keep track of requests, we'll ignore stale ones
-          this._counter = _.isNumber(this._counter) ? this._counter + 1 : 0;
-          i = this._counter;
 
           options.success = function (resp) {
             var data = {};
@@ -302,13 +331,25 @@ white:true*/
       },
 
       customerDidChange: function () {
-        var hasCustomer = !_.isEmpty(this.get("customer")),
-          billable = this.get("billable");
-        if (!hasCustomer && billable) {
+        var hasCustomer = !_.isEmpty(this.get("customer"));
+        if (!hasCustomer) {
           this.set(this.ratioKey, 0);
+          this.set("billable", false);
+          this.unset("purchaseOrderNumber");
         }
-        this.set("billable", hasCustomer);
         this.setReadOnly("billable", !hasCustomer);
+      },
+
+      destroy: function () {
+        var isNotNew = !this.isNew();
+        XM.Model.prototype.destroy.apply(this, arguments);
+
+        // If it was new the relation will be removed which kicks
+        // over renumber from worksheet bindings. If not new the relation
+        // has to stick around until we save so trigger renumber from here.
+        if (isNotNew) {
+          this.worksheetDidChange();
+        }
       },
 
       detailDidChange: function () {
@@ -367,14 +408,8 @@ white:true*/
       },
 
       worksheetDidChange: function () {
-        var K = XM.Model,
-          status = this.getStatus(),
-          worksheet = this.get("worksheet"),
-          lineNumber = this.get("lineNumber"),
-          key = this.lineNumberKey;
-        if (worksheet && status === K.READY_NEW && !lineNumber) {
-          this.set("lineNumber", worksheet.get(key).length);
-        }
+        var worksheet = this.get("worksheet");
+        if (worksheet) { worksheet.renumberLines(); }
       }
 
     });

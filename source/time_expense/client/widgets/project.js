@@ -27,6 +27,7 @@ trailing:true white:true*/
       components: [
         {kind: "FittableRows", components: [
           {kind: "XV.ProjectWidget", name: "project", label: "_project".loc(),
+            style: "border-bottom-color: rgb(170, 170, 170); border-bottom-width: 1px; border-bottom-style: solid;",
             query: {parameters: [{attribute: "status", value: XM.Project.IN_PROCESS}]}},
           {kind: "XV.PickerWidget", name: "tasks", label: "_task".loc(),
             nameAttribute: "formatNumber", orderBy: [{ attribute: "number" }]}
