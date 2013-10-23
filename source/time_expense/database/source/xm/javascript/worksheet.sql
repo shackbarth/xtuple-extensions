@@ -60,7 +60,7 @@ select xt.install_js('XM','Worksheet','xtte', $$
   */
   XM.Worksheet.fetchNumber = function() {
     var sql = "select lpad(nextval('te.timesheet_seq')::text, 5, '0') as result;";
-    return JSON.stringify(plv8.execute(sql)[0].result);
+    return plv8.execute(sql)[0].result;
   };
 
    /**
