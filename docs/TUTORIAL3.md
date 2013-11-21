@@ -162,7 +162,7 @@ One last thing we should do is to declare the version number for the client. We 
 ```javascript
 XT.extensions.icecream = {
   setVersion: function () {
-    XT.setVersion("1.4.1", "iceCream");
+    XT.setVersion("1.5.0", "iceCream");
   }
 };
 ```
