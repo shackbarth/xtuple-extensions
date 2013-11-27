@@ -31,7 +31,7 @@ select xt.add_column('teitem','teitem_vodist_id', 'integer', '', 'te');
 select xt.add_column('teitem','teitem_postedvalue', 'numeric', 'not null default 0', 'te');
 select xt.add_column('teitem','teitem_empcost', 'numeric', '', 'te');
 
-select xt.add_column('teitem','obj_uuid', 'text', 'default xt.generate_uuid()', 'te');
+select xt.add_column('teitem','obj_uuid', 'uuid', 'default xt.uuid_generate_v4()', 'te');
 select xt.add_inheritance('te.teitem', 'xt.obj');
 select xt.add_constraint('teitem', 'teitem_obj_uuid','unique(obj_uuid)', 'te');
 
