@@ -116,7 +116,7 @@ trailing:true white:true*/
               {kind: "onyx.GroupboxHeader", content: "_notes".loc()},
               {kind: "XV.TextArea", attr: "notes", fit: true},
               {kind: "onyx.GroupboxHeader", content: "_total".loc()},
-              {kind: "XV.QuantityWidget", attr: "totalHours",
+              {kind: "XV.HoursWidget", attr: "totalHours",
                 label: "_hours".loc()},
               {kind: "XV.MoneyWidget",
                 attr: {localValue: "totalExpenses", currency: "currency"},

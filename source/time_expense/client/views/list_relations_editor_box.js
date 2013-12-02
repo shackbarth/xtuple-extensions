@@ -41,7 +41,7 @@ trailing:true white:true*/
           classes: "in-panel", components: [
           {kind: "XV.InputWidget", attr: "lineNumber"},
           {kind: "XV.DateWidget", attr: "workDate"},
-          {kind: "XV.QuantityWidget", attr: "hours"},
+          {kind: "XV.HoursWidget", attr: "hours"},
           {kind: "onyx.GroupboxHeader", content: "_detail".loc()},
           {kind: "XV.TaskWidget", attr: "task"},
           {kind: "XV.ItemWidget", attr: "item",
