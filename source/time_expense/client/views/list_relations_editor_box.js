@@ -1,6 +1,6 @@
 /*jshint bitwise:false, indent:2, curly:true eqeqeq:true, immed:true,
 latedef:true, newcap:true, noarg:true, regexp:true, undef:true,
-trailing:true white:true*/
+trailing:true, white:true*/
 /*global XV:true, XM:true, _:true, Backbone:true, enyo:true, XT:true */
 
 (function () {
@@ -61,7 +61,7 @@ trailing:true white:true*/
           {kind: "XV.MoneyWidget",
             attr: {localValue: "billingTotal", currency: "billingCurrency"},
             label: "_total".loc(), currencyDisabled: true },
-          {kind: "onyx.GroupboxHeader", content: "_cost".loc()},
+          {kind: "onyx.GroupboxHeader", content: "_cost".loc(), name: "costHeader"},
           {kind: "XV.MoneyWidget",
             attr: {localValue: "hourlyRate", currency: "hourlyCurrency"},
             label: "_hourly".loc(), currencyDisabled: true },
@@ -71,7 +71,12 @@ trailing:true white:true*/
           {kind: "onyx.GroupboxHeader", content: "_notes".loc()},
           {kind: "XV.TextArea", attr: "notes", fit: true}
         ]}
-      ]
+      ],
+      create: function () {
+        this.inherited(arguments);
+        // Don't show cost header if user doesn't have cost permissions
+        this.$.costHeader.setShowing(XT.session.privileges.attributes.MaintainEmpCostAll);
+      }
     });
 
     enyo.kind({
