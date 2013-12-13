@@ -8,7 +8,7 @@ white:true*/
 
   XT.extensions.timeExpense = {
     setVersion: function () {
-      XT.setVersion("1.5.0", "timeExpense");
+      XT.setVersion("1.5.1", "timeExpense");
     }
   };
 
