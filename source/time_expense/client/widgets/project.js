@@ -1,6 +1,6 @@
-/*jshint bitwise:true, indent:2, curly:true eqeqeq:true, immed:true,
+/*jshint bitwise:true, indent:2, curly:true, eqeqeq:true, immed:true,
 latedef:true, newcap:true, noarg:true, regexp:true, undef:true,
-trailing:true white:true*/
+trailing:true, white:true, strict:false*/
 /*global XT:true, XM:true, XV:true, enyo:true*/
 
 (function () {
@@ -27,6 +27,7 @@ trailing:true white:true*/
       components: [
         {kind: "FittableRows", components: [
           {kind: "XV.ProjectWidget", name: "project", label: "_project".loc(),
+            collection: "XM.WorksheetProjectRelationCollection",
             style: "border-bottom-color: rgb(170, 170, 170); border-bottom-width: 1px; border-bottom-style: solid;",
             query: {parameters: [{attribute: "status", value: XM.Project.IN_PROCESS}]}},
           {kind: "XV.PickerWidget", name: "tasks", label: "_task".loc(),
@@ -103,7 +104,7 @@ trailing:true white:true*/
           if (number instanceof XM.Model) { number = number.id; }
           project = this.$.project.getValue();
           if (!project || !project.id || project.id !== number) {
-            project = XM.ProjectRelation.findOrCreate({number: number});
+            project = XM.WorksheetProjectRelation.findOrCreate({number: number});
             if (project.getStatus !== XM.Model.READY_CLEAN) {
               project.fetch({success: processTasks});
             } else {
