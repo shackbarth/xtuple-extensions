@@ -75,28 +75,28 @@
      {
        "name": "totalHours",
        "attr": {
-         "type": "Number",
+         "type": "Hours",
          "column": "total_hours"
        }
      },
      {
        "name": "totalExpenses",
        "attr": {
-         "type": "Number",
+         "type": "Money",
          "column": "total_expenses"
        }
      },
      {
        "name": "toInvoice",
        "attr": {
-         "type": "Number",
+         "type": "Money",
          "column": "to_invoice"
        }
      },
      {
        "name": "toVoucher",
        "attr": {
-         "type": "Number",
+         "type": "Money",
          "column": "to_voucher"
        }
      },
@@ -266,7 +266,7 @@
     {
        "name": "totalHours",
        "attr": {
-         "type": "Number",
+         "type": "Hours",
          "column": "total_hours"
        }
      },
@@ -282,7 +282,7 @@
      {
        "name": "totalExpenses",
        "attr": {
-         "type": "Number",
+         "type": "Money",
          "column": "total_expenses"
        }
      },
@@ -990,7 +990,7 @@
      {
        "name": "hours",
        "attr": {
-         "type": "Number",
+         "type": "Hours",
          "column": "teitem_qty",
          "required": true
        }
@@ -1013,7 +1013,7 @@
      {
        "name": "billingRate",
        "attr": {
-         "type": "Number",
+         "type": "SalesPrice",
          "column": "teitem_rate",
          "required": true
        }
@@ -1021,14 +1021,14 @@
      {
        "name": "billingTotal",
        "attr": {
-         "type": "Number",
+         "type": "Money",
          "column": "teitem_total"
        }
      },
      {
        "name": "hourlyRate",
        "attr": {
-         "type": "Number",
+         "type": "Cost",
          "column": "teitem_empcost"
        }
      },
@@ -1068,7 +1068,7 @@
     "context": "time_expense",
     "nameSpace": "XM",
     "type": "WorksheetExpense",
-    "table": "te.teitem",
+    "table": "xt.teiteminfo",
     "idSequenceName": "te.teitem_teitem_id_seq",
     "comment": "Worksheet Expense Map",
     "privileges": {
@@ -1227,7 +1227,7 @@
          "type": "Date",
          "column": "teitem_lastupdated"
        }
-     }     
+     }
     ],
     "isNestedOnly": true,
     "isSystem": true

@@ -8,7 +8,7 @@ white:true*/
 
   XT.extensions.oauth2 = {
     setVersion: function () {
-      XT.setVersion("1.4.1", "oauth2");
+      XT.setVersion("1.5.0", "oauth2");
     }
   };
 
