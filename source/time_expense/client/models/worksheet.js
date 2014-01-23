@@ -630,39 +630,39 @@ white:true*/
       editableModel: "XM.Worksheet",
 
       canApprove: function (callback) {
-        return _canDo.call(this, "CanApprove", XM.Worksheet.OPEN, callback);
+        return _canDo.call(this, true, XM.Worksheet.OPEN, callback);
       },
 
       canClose: function (callback) {
-        return _canDo.call(this, "MaintainTimeExpense", XM.Worksheet.APPROVED, callback);
+        return _canDo.call(this, true, XM.Worksheet.APPROVED, callback);
       },
 
       canInvoice: function (callback) {
-        var priv = this.get("invoiced") === false ? "allowInvoicing" : false;
-        return _canDo.call(this, priv, XM.Worksheet.APPROVED, callback);
+        var qualifed = this.get("invoiced") === false;
+        return _canDo.call(this, qualifed, XM.Worksheet.APPROVED, callback);
       },
 
       canPost: function (callback) {
-        var priv = this.getValue("employee.isContractor") ||
-                   this.get("posted") ? false : "PostTimeSheets";
-        return _canDo.call(this, priv, XM.Worksheet.APPROVED, callback);
+        var qualifed = this.getValue("employee.isContractor") ||
+                   this.get("posted") ? false : true;
+        return _canDo.call(this, qualifed, XM.Worksheet.APPROVED, callback);
       },
 
       canUnapprove: function (callback) {
-        var priv = this.get("postedValue") || this.get("posted") ||
+        var qualifed = this.get("postedValue") || this.get("posted") ||
                    this.get("invoicedValue") || this.get("invoiced") ||
                    this.get("voucheredValue") || this.get("vouchered") ?
-                   false : "CanApprove";
-        return _canDo.call(this, priv, XM.Worksheet.APPROVED, callback);
+                   false : true;
+        return _canDo.call(this, qualifed, XM.Worksheet.APPROVED, callback);
       },
 
       canVoucher: function (callback) {
-        var priv = this.get("toVoucher") ? "allowVouchering" : false;
-        return _canDo.call(this, priv, XM.Worksheet.APPROVED, callback);
+        var qualifed = this.get("toVoucher") > 0;
+        return _canDo.call(this, qualifed, XM.Worksheet.APPROVED, callback);
       },
 
       couldDestroy: function (callback) {
-        return _canDo.call(this, "MaintainTimeExpense", XM.Worksheet.OPEN, callback);
+        return _canDo.call(this, true, XM.Worksheet.OPEN, callback);
       },
 
       doApprove: function (callback) {
@@ -695,9 +695,9 @@ white:true*/
     XM.WorksheetListItem = XM.WorksheetListItem.extend(XM.WorksheetMixin);
 
     /** @private */
-    var _canDo = function (priv, reqStatus, callback) {
+    var _canDo = function (qualified, reqStatus, callback) {
       var status = this.get("worksheetStatus"),
-        ret = XT.session.privileges.get(priv) && status === reqStatus;
+        ret = qualified && status === reqStatus;
       if (callback) {
         callback(ret);
       }
