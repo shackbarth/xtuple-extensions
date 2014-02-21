@@ -117,6 +117,8 @@ $ psql -U admin -d dev -c "select * from xt.ext;"
 
 Now is also a good time to associate this extension with the admin. Any extension can be turned off and on for any user, but by default they're turned off. Load up the webapp and navigate to `Setup`->`User Accounts`->`admin`. You'll see that admin has some extensions already turned on. Click the `icecream` checkbox as well, and save the workspace.
 
+Note: If the client prompts, "you do not have sufficient permissions to ...", check user privileges to make sure the extention is allowed. If the error persists, logout of the client and log back in to finish extention installation.
+
 ***
 
 We can put these files together in our `manifest.js` file, which as a convention will be run by the xTuple build process when the database needs to be updated. Another function of the `manifest.js` is to ensure that files get installed in the correct order. In this case so far it doesn't matter because our two scripts are independent. Enter the following code into the file `/path/to/xtuple-extensions/source/icecream/database/manifest.js`:
