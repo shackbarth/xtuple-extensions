@@ -4,14 +4,17 @@ node_js:
 
 install:
   - "cd .."
-  - "ls -l"
   - "git clone git://github.com/xtuple/xtuple.git --recursive"
   - "cd xtuple"
   - "bash scripts/install_xtuple.sh -ipn"
-  - "./scripts/build_app.js -d dev -e ../xtuple-extensions/source/time_expense"
+  - "cp test/lib/demo-test.backup ../xtuple-extensions/test/lib/demo-test.backup"
+  - "cp test/lib/login_data.js ../xtuple-extensions/test/lib/login_data.js"
+  - "cd ../xtuple-extensions"
+  - "npm install"
+  - "npm run-script test-build"
 
 before_script:
-  - "cd node-datasource"
+  - "cd ../xtuple/node-datasource"
   - "node main.js &"
   - "sleep 10"
   - "cd .."
@@ -19,3 +22,5 @@ before_script:
 script:
   - "npm run-script test"
   - "npm run-script test-datasource"
+  - "cd ../xtuple-extensions"
+  - "npm run-script test"
