@@ -4,7 +4,7 @@
     "nameSpace": "XM",
     "type": "Oauth2client",
     "table": "xt.oa2client",
-    "idSequenceName": "oa2client_oa2client_id_seq",
+    "idSequenceName": "xt.oa2client_oa2client_id_seq",
     "comment": "Defines global OAuth 2.0 server registered client storage.",
     "privileges": {
       "all": {

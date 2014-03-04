@@ -12,6 +12,13 @@ install:
   - "cd ../xtuple-extensions"
   - "npm install"
   - "npm run-script test-build"
+  - "mv sample/icecream source"
+  - "mkdir -p test/icecream/specs"
+  - "cp source/icecream/test/* test/icecream/specs"
+  - "../xtuple/scripts/build_app.js -e source/icecream"
+  - "psql -d dev -U admin -c \"select xt.js_init();insert into xt.usrext (usrext_usr_username, usrext_ext_id) select 'admin', ext_id from xt.ext where ext_name = 'icecream';\""
+  - "psql -d dev -U admin -c \"select xt.js_init();insert into usrpriv (usrpriv_username, usrpriv_priv_id) select 'admin', priv_id from priv where priv_name = 'MaintainIceCreamFlavors';\""
+  
 
 before_script:
   - "cd ../xtuple/node-datasource"
