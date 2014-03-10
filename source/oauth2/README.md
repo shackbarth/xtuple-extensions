@@ -73,6 +73,10 @@ stop the datasource, enter the main "xtuple" directory and run this command:
 
     ./scripts/build_app.js -d your-xtuple-database-name-here -e ../xtuple-extensions/source/oauth2
 
+Make sure you have created a `private` folder at this location:
+
+    path-to-xtuple/node-datasource/lib/private
+
 You can now start the datasource.
 
 ### OAuth 2.0 Client Setup:

@@ -1,6 +1,6 @@
 {
   "name": "time_expense",
-  "version": "1.4.4",
+  "version": "1.7.0",
   "comment": "Time Expense Management extension",
   "loadOrder": 100,
   "dependencies": ["project"],

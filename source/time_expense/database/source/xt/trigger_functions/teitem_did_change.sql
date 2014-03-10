@@ -1,12 +1,17 @@
 create or replace function xt.teitem_did_change() returns trigger as $$
-/* Copyright (c) 1999-2013 by OpenMFG LLC, d/b/a xTuple. 
+/* Copyright (c) 1999-2014 by OpenMFG LLC, d/b/a xTuple.
    See www.xm.ple.com/CPAL for the full text of the software license. */
+
+   if (typeof XT === 'undefined') {
+     plv8.execute("select xt.js_init();");
+   }
+
    var data = Object.create(XT.Data),
      sql,
      params,
      qry,
      rate;
-   
+
    /* Populate employee cost if it wasn't already included */
    if (NEW.teitem_type === 'T') {
      if (NEW.teitem_empcost === null) {
