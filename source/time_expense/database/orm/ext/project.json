@@ -48,31 +48,6 @@
   {
     "context": "time_expense",
     "nameSpace": "XM",
-    "type": "ProjectRelation",
-    "table": "xt.teprjinfo",
-    "isExtension": true,
-    "comment": "Extended by time_expense",
-    "relations": [
-      {
-        "column": "teprj_prj_id",
-        "inverse": "id"
-      }
-    ],
-    "properties": [
-     {
-       "name": "customer",
-       "toOne": {
-         "isNested": true,
-         "type": "CustomerRelation",
-         "column": "teprj_cust_id"
-       }
-     }
-    ],
-    "isSystem": true
-  },
-  {
-    "context": "time_expense",
-    "nameSpace": "XM",
     "type": "ProjectTask",
     "table": "xt.teprjtaskinfo",
     "isExtension": true,

@@ -67,7 +67,7 @@ white:true*/
           }
         }
       };
-      XM.ModelMixin.dispatch('XM.Project', 'worksheetUsed',
+      XM.ModelMixin.dispatch("XM.Project", "worksheetUsed",
       [id], dispOptions);
     };
     
@@ -75,7 +75,7 @@ white:true*/
     // PROJECT TASK
     //
     
-    // Unfortunately classes below can't share much with abave because the private functions are different
+    // Unfortunately classes below can't share much with above because the private functions are different
     var _ptProto = XM.ProjectTask.prototype,
       _ptBindEvents = _ptProto.bindEvents,
       _ptStatusDidChange = _ptProto.statusDidChange;
@@ -161,6 +161,36 @@ white:true*/
           _specifiedSetReadOnly.apply(this);
         }
       }
+
+    });
+
+    /**
+      @class
+
+      @extends XM.ProjectRelation
+    */
+    XM.WorksheetProjectRelation = XM.ProjectRelation.extend({
+      /** @scope XM.WorksheetProjectRelation.prototype */
+
+      recordType: "XM.WorksheetProjectRelation",
+
+      editableModel: "XM.Project"
+
+    });
+
+    // ..........................................................
+    // COLLECTIONS
+    //
+
+    /**
+      @class
+
+      @extends XM.Collection
+    */
+    XM.WorksheetProjectRelationCollection = XM.Collection.extend({
+      /** @scope XM.WorksheetProjectRelationCollection.prototype */
+
+      model: XM.WorksheetProjectRelation
 
     });
 
