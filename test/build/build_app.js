@@ -15,7 +15,7 @@ var buildAll = require('../../../xtuple/scripts/lib/build_all'),
 
     var loginData = require(path.join(__dirname, "../lib/login_data.js")).data,
       databaseName = loginData.org,
-      extensions = ["time_expense", "oauth2"],
+      extensions = ["time_expense"],
       datasource = require('../../../xtuple/node-datasource/lib/ext/datasource').dataSource,
       config = require(path.join(__dirname, "../../../xtuple/node-datasource/config.js")),
       creds = config.databaseServer;
