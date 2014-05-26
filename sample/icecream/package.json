@@ -1,0 +1,15 @@
+
+{
+  "author": "xTuple <dev@xtuple.com>",
+  "name": "xtuple-ice-cream",
+  "description": "xTuple ice cream extension",
+  "version": "0.0.1",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "0.8.x"
+  }
+}
