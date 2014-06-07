@@ -1,6 +1,6 @@
 [
   {
-    "context": "icecream",
+    "context": "xtuple-ice-cream",
     "nameSpace": "XM",
     "type": "Contact",
     "table": "ic.cntcticflav",
@@ -25,7 +25,7 @@
     "isSystem": true
   },
   {
-    "context": "icecream",
+    "context": "xtuple-ice-cream",
     "nameSpace": "XM",
     "type": "ContactListItem",
     "table": "ic.cntcticflav",

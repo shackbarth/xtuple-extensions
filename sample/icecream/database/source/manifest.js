@@ -1,5 +1,5 @@
 {
-  "name": "icecream",
+  "name": "xtuple-ice-cream",
   "version": "1.8.0",
   "comment": "Ice Cream extension",
   "loadOrder": 999,
