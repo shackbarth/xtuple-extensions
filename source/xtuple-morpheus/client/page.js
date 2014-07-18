@@ -15,8 +15,8 @@ white:true*/
       components: [
         { tag: "h2", content: "_general".loc()},
         { name: "movingBox", style: "top: 0; left: 0; position: relative; width: 20px; height: 20px; border-radius: 4px; background: #f00; margin: 5px 0; border: 1px solid #999; -moz-border-radius: 4px; -webkit-border-radius: 4px;" },
-        { kind: "onyx.Button", name: "movingButton", content: "_go".loc(), ontap: "buttonTap"}
-
+        { kind: "onyx.Button", name: "movingButton", content: "_go".loc(), ontap: "buttonTap"},
+        { name: "message" }
       ],
       buttonTap: function (inSender, inEvent) {
         var that = this;
@@ -26,8 +26,7 @@ white:true*/
           backgroundColor: '#fff',
           duration: 2000,
           complete: function () {
-            console.log("foo");
-            that.$.movingButton.setDisabled(false);
+            that.$.message.setContent("_thatIsAllYouGet".loc());
           }
         });
       }

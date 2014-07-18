@@ -11,6 +11,7 @@ strict:true, trailing:true, white:true */
     "_general": "General",
     "_go": "Go",
     "_morpheus": "Morpheus",
+    "_thatIsAllYouGet": "That is all you get"
   });
 
   if (typeof exports !== 'undefined') {
