@@ -28,11 +28,11 @@ Each npm package is defined by its `package.json` file. Look at code in the file
   "author": "xTuple <dev@xtuple.com>",
   "name": "xtuple-ice-cream",
   "description": "xTuple ice cream extension",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "dependencies": {
   },
   "peerDependencies": {
-    "xtuple": "*"
+    "xtuple": "^4.6.0"
   },
   "repository": {
     "type": "git",
@@ -77,7 +77,7 @@ You'll need to
 
 - Write the new code
 - Bump the extension version appropriately in `package.json` (say, to `0.1.2`)
-- Change the `xtuple` `peerDependency` version from `"*"` to `"^4.30.0"`
+- Change the `xtuple` `peerDependency` version from `"^4.6.0"` to `"^4.30.0"`
 - `npm publish`
 
 Now there will be two usable versions of your extension, and npm will prefer to install the latest version for 
