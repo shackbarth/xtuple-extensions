@@ -1,0 +1,18 @@
+{
+  "author": "xTuple <dev@xtuple.com>",
+  "name": "xtuple-ice-cream",
+  "description": "xTuple ice cream extension",
+  "version": "0.1.1",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "xtuple": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/xtuple/xtuple-ice-cream"
+  },
+  "engines": {
+    "node": "0.8.x"
+  }
+}

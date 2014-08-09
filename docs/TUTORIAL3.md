@@ -5,7 +5,7 @@ Let's add some bells and whistles to give you a feel for how to implement advanc
 
 ### Business Logic: Validation
 
-Late breaking requirement from the prospect! Any flavor under 450 calories must start with the word "Lite". This sort of business logic is best put in the model, so add the following code into the file `/path/to/xtuple-extensions/source/icecream/client/models/ice_cream_flavor.js`:
+Late breaking requirement from the prospect! Any flavor under 450 calories must start with the word "Lite". This sort of business logic is best put in the model, so add the following code into the file `/path/to/xtuple-extensions/source/xtuple-ice-cream/client/models/ice_cream_flavor.js`:
 
 ```javascript
 validate: function (attributes) {
@@ -20,7 +20,7 @@ validate: function (attributes) {
 
 The validate function is intended to return undefined if there is no error, and to return an error object if there is an error. What we're doing here is to add a specific check for the business logic. If that passes, we just call the default validation.
 
-See that we're relying on our centralized error registry to understand what `icecream3001` means. Let's register this error by adding the following code to the file `/path/to/xtuple-extensions/source/icecream/client/models/startup.js`:
+See that we're relying on our centralized error registry to understand what `icecream3001` means. Let's register this error by adding the following code to the file `/path/to/xtuple-extensions/source/xtuple-ice-cream/client/models/startup.js`:
 
 ```javascript
 XT.Error.addError({
@@ -33,7 +33,7 @@ XT.Error.addError({
 
 ### Business Logic: Event Binding
 
-We can do better than this, by making the model automatically update the name based on the calorie count. To do this we use event binding, which is one of the most powerful tools we have to drive business logic. We'll use the bindEvents function to listen to changes to the calorie attribute and act accordingly. Add the following code into the file `/path/to/xtuple-extensions/source/icecream/client/models/ice_cream_flavor.js`:
+We can do better than this, by making the model automatically update the name based on the calorie count. To do this we use event binding, which is one of the most powerful tools we have to drive business logic. We'll use the bindEvents function to listen to changes to the calorie attribute and act accordingly. Add the following code into the file `/path/to/xtuple-extensions/source/xtuple-ice-cream/client/models/ice_cream_flavor.js`:
 
 ```javascript
 bindEvents: function () {
@@ -61,7 +61,7 @@ caloriesDidChange: function () {
 
 Earlier on we defined the ORM with totally lax privilege enforcement by setting all the privilege attributes to `true`. Let's go back and restrict privileges for creating, reading, updating, and deleting these objects. It would be easy enough to piggyback on a pre-existing set of privileges, such as `MaintainContacts` and `ViewContacts`, but let's be thorough and make a new privilege.
 
-Enter the following code into the file `/path/to/xtuple-extensions/source/icecream/database/source/priv.sql`:
+Enter the following code into the file `/path/to/xtuple-extensions/source/xtuple-ice-cream/database/source/priv.sql`:
 
 ```javascript
 select xt.add_priv('MaintainIceCreamFlavors', 'Maintain Ice Cream Flavors', 'IceCream', 'Contact');
@@ -77,7 +77,7 @@ Rebuild the extension and **verify** the change by looking in the public `priv` 
 select * from priv where priv_module = 'IceCream';
 ```
 
-Next, go back to the file `/path/to/xtuple-extensions/source/icecream/database/orm/models/ice_cream_flavor.json` and update the privilege section. Whereas the booleans `true` (and `false`) represent that anyone (or no one) can perform a certain action, any string value is interpreted to mean that only users with that privilege can perform the action.
+Next, go back to the file `/path/to/xtuple-extensions/source/xtuple-ice-cream/database/orm/models/ice_cream_flavor.json` and update the privilege section. Whereas the booleans `true` (and `false`) represent that anyone (or no one) can perform a certain action, any string value is interpreted to mean that only users with that privilege can perform the action.
 
 ```javascript
 "privileges": {
@@ -92,13 +92,13 @@ Next, go back to the file `/path/to/xtuple-extensions/source/icecream/database/o
 
 **Verify** the privilege enforcement by rebuilding, refreshing the browser, and seeing that you can no longer add, edit, or delete an `IceCreamFlavor` (although you can still view them because that privilege is still set to `true`). 
 
-If you go into the `UserAccount` workspace for the `admin` user you'll notice that this privilege is not visible. There are hundreds of privileges and for any given user only a fraction may be relevant. Because some privileges are relevant to multiple extensions there isn't a strict many-to-one relationship between privileges and extensions, so the privileges relevant to any given extension cannot be inferred. Long story short, we have to add the following to our `postbooks.js` file, which declares the `MaintainIceCreamFlavors` as relevant to the `icecream` extension, as well as the fact that this privilege should be grouped with the ones for `Contact`. Add the following code to the file `/path/to/xtuple-extensions/source/icecream/client/postbooks.js`:
+If you go into the `UserAccount` workspace for the `admin` user you'll notice that this privilege is not visible. There are hundreds of privileges and for any given user only a fraction may be relevant. Because some privileges are relevant to multiple extensions there isn't a strict many-to-one relationship between privileges and extensions, so the privileges relevant to any given extension cannot be inferred. Long story short, we have to add the following to our `postbooks.js` file, which declares the `MaintainIceCreamFlavors` as relevant to the `xtuple-ice-cream` extension, as well as the fact that this privilege should be grouped with the ones for `Contact`. Add the following code to the file `/path/to/xtuple-extensions/source/xtuple-ice-cream/client/postbooks.js`:
 
 ```javascript
 relevantPrivileges = [
   "MaintainIceCreamFlavors"
 ];
-XT.session.addRelevantPrivileges("icecream", relevantPrivileges);
+XT.session.addRelevantPrivileges("xtuple-ice-cream", relevantPrivileges);
 XT.session.privilegeSegments.Contact.push("MaintainIceCreamFlavors");
 ```
 
@@ -111,7 +111,7 @@ breaking anything else inadvertantly.
 
 We use mocha for unit and integration testing, and you should test your ice cream flavor model through our general-purpose business object testing tool to make sure that your code does what you expect it to do, and that if anyone changes anything in the app that breaks the behavior you desire, they'll be unable to merge that breaking change into our code base.
 
-To get your testing environment set up, you'll want to refer to [testing documentation](https://github.com/xtuple/xtuple/wiki/Testing-Setup). Make sure that you can run all the tests in the core `xtuple` directory. Once you can do that, then putting the `IceCream` model under test should follow the same process as our other objects. Enter the following code into the file `/path/to/xtuple-extensions/test/icecream/spec/ice_cream_flavor.js` (making those subdirectories as needed):
+To get your testing environment set up, you'll want to refer to [testing documentation](https://github.com/xtuple/xtuple/wiki/Testing-Setup). Make sure that you can run all the tests in the core `xtuple` directory. Once you can do that, then putting the `IceCream` model under test should follow the same process as our other objects. Enter the following code into the file `/path/to/xtuple-extensions/test/xtuple-ice-cream/spec/ice_cream_flavor.js` (making those subdirectories as needed):
 
 ```javascript
 (function () {
@@ -129,7 +129,7 @@ To get your testing environment set up, you'll want to refer to [testing documen
     idAttribute: "name",
     enforceUpperKey: true,
     attributes: ["name", "description", "calories"],
-    extensions: ["icecream"],
+    extensions: ["xtuple-ice-cream"],
     createHash: {
       name: "VANILLA" + Math.random(),
       calories: 1200
@@ -187,16 +187,16 @@ We have set up TravisCI to run the entire test suite before any code gets commit
 
 ### Declaring the Version Number
 
-One last thing we should do is to declare the version number for the client. We have already specified the version number in the database `manifest.js` file. We should do the something similar in the client so that users will know how up-to-date their extension code is. Update the file `/path/to/xtuple-extensions/source/icecream/client/core.js` with the following:
+One last thing we should do is to declare the version number for the client. We have already specified the version number in the database `manifest.js` file. We should do the something similar in the client so that users will know how up-to-date their extension code is. Update the file `/path/to/xtuple-extensions/source/xtuple-ice-cream/client/core.js` with the following:
 
 ```javascript
 XT.extensions.icecream = {
   setVersion: function () {
-    XT.setVersion("1.8.0", "iceCream");
+    XT.setVersion("0.1.1", "xtuple-ice-cream");
   }
 };
 ```
 
-**Verify** your work by refreshing the browser, and selecting the `About` item from the gear menu. "Ice Cream 1.4.1" should display alongside your other extensions.
+**Verify** your work by refreshing the browser, and selecting the `About` item from the gear menu. "Ice Cream 0.1.1" should display alongside your other extensions.
 
-That's it! Hopefully you have a sense of how to work within the xTuple Web/Mobile platform, and you're excited to start developing your own work. Drop us a line to let us know what you think, or if you have anything else you'd like to be better documented, at dev at xtuple dot com.
+Good work so far! You've been able to develop a custom extension. Deployability into a production environment is just a few steps away, as you'll see in [Part IV](TUTORIAL4.md) of the tutorial.

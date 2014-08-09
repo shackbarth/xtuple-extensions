@@ -64,7 +64,7 @@ of client-side files, so as to avoid writing the jshint,
 `"use strict"`, and wrapper functions. This is fine to do, 
 but make sure that you rename the `XT.extensions` functions. 
 There must only be one `XT.extensions.iceCream.initModels` 
-[function](http://github.com/xtuple/xtuple-extensions/tree/master/sample/icecream/client/models/ice_cream_flavor.js#L9), 
+[function](http://github.com/xtuple/xtuple-extensions/tree/master/sample/xtuple-ice-cream/client/models/ice_cream_flavor.js#L9), 
 for example. 
 
 ### What are the differences between the base model classes?
@@ -85,14 +85,14 @@ need to define any others.
 
 ### How do I update the strings file?
 
-The `/path/to/xtuple-extensions/source/icecream/client/en/strings.js` file 
+The `/path/to/xtuple-extensions/source/xtuple-ice-cream/client/en/strings.js` file 
 provides the English translations for all the visible text in your app. If you're
 diligent about always entering your visible text in the format "_myWord".loc(),
 then you'll notice the underscores onscreen, which will remind you to
 add the English translation into the `strings.js` file.
 
 By the end of your tutorial your `strings.js` file will look like
-[this](https://github.com/xtuple/xtuple-extensions/blob/master/sample/icecream/client/en/strings.js).
+[this](https://github.com/xtuple/xtuple-extensions/blob/master/sample/xtuple-ice-cream/client/en/strings.js).
 
 ### Why do we need a new table to extend `contact`?
 In a perfect world, we would just go into the `cntct` table and add a 

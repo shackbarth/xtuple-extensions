@@ -15,7 +15,7 @@ var buildAll = require('../../../xtuple/scripts/lib/build_all'),
 
     var loginData = require(path.join(__dirname, "../lib/login_data.js")).data,
       databaseName = loginData.org,
-      extensions = ["time_expense", "oauth2"],
+      extensions = ["time_expense"],
       datasource = require('../../../xtuple/node-datasource/lib/ext/datasource').dataSource,
       config = require(path.join(__dirname, "../../../xtuple/node-datasource/config.js")),
       creds = config.databaseServer;
@@ -26,7 +26,8 @@ var buildAll = require('../../../xtuple/scripts/lib/build_all'),
       buildAll.build({
         database: databaseName,
         initialize: true,
-        backup: path.join(__dirname, "../lib/demo-test.backup")
+        populateData: true,
+        source: path.join(__dirname, "../../../xtuple/foundation-database/postbooks_demo_data.sql")
       }, function (err, res) {
         assert.isNull(err);
         done();
@@ -42,36 +43,6 @@ var buildAll = require('../../../xtuple/scripts/lib/build_all'),
           assert.isNull(err);
           done();
         });
-      });
-    });
-
-    it('should grant all extensions to the user', function (done) {
-      var sql = "insert into xt.usrext (usrext_usr_username, usrext_ext_id) " +
-        "select $1, ext_id " +
-        "from xt.ext " +
-        "left join xt.usrext on ext_id = usrext_ext_id and usrext_usr_username = $1 " +
-        "where usrext_id is null;";
-
-      creds.database = databaseName;
-      creds.parameters = [loginData.username];
-      datasource.query(sql, creds, function (err, res) {
-        assert.isNull(err);
-        done();
-      });
-    });
-
-    it('should grant all privileges to the user', function (done) {
-      var sql = "insert into usrpriv (usrpriv_username, usrpriv_priv_id) " +
-        "select $1, priv_id " +
-        "from priv " +
-        "left join usrpriv on priv_id = usrpriv_priv_id and usrpriv_username = $1 " +
-        "where usrpriv_id is null";
-
-      creds.database = databaseName;
-      creds.parameters = [loginData.username];
-      datasource.query(sql, creds, function (err, res) {
-        assert.isNull(err);
-        done();
       });
     });
   });

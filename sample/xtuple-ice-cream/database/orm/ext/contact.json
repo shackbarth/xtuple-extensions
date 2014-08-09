@@ -1,0 +1,52 @@
+[
+  {
+    "context": "xtuple-ice-cream",
+    "nameSpace": "XM",
+    "type": "Contact",
+    "table": "ic.cntcticflav",
+    "isExtension": true,
+    "isChild": false,
+    "comment": "Extended by Icecream",
+    "relations": [
+      {
+        "column": "cntcticflav_cntct_id",
+        "inverse": "id"
+      }
+    ],
+    "properties": [
+     {
+        "name": "favoriteFlavor",
+        "toOne": {
+         "type": "IceCreamFlavor",
+         "column": "cntcticflav_icflav_id"
+        }
+     }
+    ],
+    "isSystem": true
+  },
+  {
+    "context": "xtuple-ice-cream",
+    "nameSpace": "XM",
+    "type": "ContactListItem",
+    "table": "ic.cntcticflav",
+    "isExtension": true,
+    "isChild": false,
+    "comment": "Extended by Icecream",
+    "relations": [
+      {
+        "column": "cntcticflav_cntct_id",
+        "inverse": "id"
+      }
+    ],
+    "properties": [
+     {
+        "name": "favoriteFlavor",
+        "toOne": {
+         "type": "IceCreamFlavor",
+         "column": "cntcticflav_icflav_id"
+        }
+     }
+    ],
+    "isSystem": true
+  }
+]
