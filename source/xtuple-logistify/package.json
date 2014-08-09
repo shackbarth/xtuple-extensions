@@ -1,0 +1,16 @@
+{
+  "author": "Steve Hackbarth <shackbarth@xtuple.com>",
+  "name": "xtuple-logistify",
+  "description": "xTuple Logistify integration",
+  "version": "0.1.0",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "xtuple": "^4.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/shackbarth/xtuple-extensions"
+  }
+}
+

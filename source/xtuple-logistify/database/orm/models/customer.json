@@ -1,6 +1,6 @@
 [
   {
-    "context": "logistify",
+    "context": "xtuple-logistify",
     "nameSpace": "XM",
     "type": "ShipVia",
     "table": "lg.shipvialogin",

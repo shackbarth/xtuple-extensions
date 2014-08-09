@@ -8,7 +8,7 @@ white:true*/
 
   XT.extensions.logistify = {
     setVersion: function () {
-      XT.setVersion("1.4.5", "logistify");
+      XT.setVersion("0.1.0", "xtuple-logistify");
     }
   };
 
