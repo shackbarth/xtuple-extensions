@@ -1,0 +1,44 @@
+[
+  {
+    "context": "xtuple-field-dev-sample-2",
+    "nameSpace": "XM",
+    "type": "MetricFoo",
+    "table": "xtfielddev.metric_foo",
+    "comment": "Metric Map With Foo",
+    "privileges": {
+      "all": {
+        "create": false,
+        "read": true,
+        "update": false,
+        "delete": false
+      }
+    },
+    "properties": [
+      {
+        "name": "name",
+        "attr": {
+          "type": "String",
+          "column": "metric_name",
+          "isPrimaryKey": true,
+          "isNaturalKey": true
+        }
+      },
+      {
+        "name": "value",
+        "attr": {
+          "type": "String",
+          "column": "metric_value"
+        }
+      },
+      {
+        "name": "foo",
+        "attr": {
+          "type": "String",
+          "column": "foo"
+        }
+      }
+    ],
+    "isSystem": true
+  }
+]
+
