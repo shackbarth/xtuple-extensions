@@ -1,6 +1,6 @@
 {
   "name": "bi_open",
-  "version": "4.6.0",
+  "version": "4.6.1",
   "comment": "Business Intelligence",
   "loadOrder": 50,
   "dependencies": [],
