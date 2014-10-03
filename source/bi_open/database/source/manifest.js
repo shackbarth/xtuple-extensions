@@ -7,7 +7,6 @@
   "databaseScripts": [
     "create-bi-open-schema.sql",
     "usrbichart.sql",
-    "usrbichart.sql",
     "public/tables/metric.sql"
   ],
   "routes": [
