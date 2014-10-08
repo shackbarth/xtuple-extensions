@@ -1,7 +1,7 @@
 
 {
   "author": "xTuple <dev@xtuple.com>",
-  "name": "xtuple",
+  "name": "xtuple-extensions",
   "description": "xTuple Enterprise Resource Planning Mobile-Web client public extensions",
   "version": "4.7.0",
   "repository": {
