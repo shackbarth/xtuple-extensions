@@ -6,7 +6,6 @@ white:true*/
 (function () {
   "use strict";
 
-  XT.extensions.icecream = {
-  };
+  XT.extensions.icecream = {};
 
 }());
