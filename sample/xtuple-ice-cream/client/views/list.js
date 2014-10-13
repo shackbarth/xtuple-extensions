@@ -18,12 +18,12 @@ white:true*/
       components: [
         {kind: "XV.ListItem", components: [
           {kind: "FittableColumns", components: [
-            {kind: "XV.ListColumn", classes: "short",
+            {kind: "XV.ListColumn", classes: "medium",
               components: [
               {kind: "XV.ListAttr", attr: "name", isKey: true},
               {kind: "XV.ListAttr", attr: "description"}
             ]},
-            {kind: "XV.ListColumn", classes: "last", fit: true, components: [
+            {kind: "XV.ListColumn", fit: true, components: [
               {kind: "XV.ListAttr", attr: "calories"}
             ]}
           ]}
