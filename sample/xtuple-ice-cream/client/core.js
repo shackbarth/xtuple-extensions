@@ -7,9 +7,6 @@ white:true*/
   "use strict";
 
   XT.extensions.icecream = {
-    setVersion: function () {
-      XT.setVersion("0.1.1", "xtuple-ice-cream");
-    }
   };
 
 }());
