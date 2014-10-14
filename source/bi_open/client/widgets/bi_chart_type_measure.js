@@ -89,6 +89,9 @@ trailing:true, white:true*/
           this.setMeasure(model.get("measure"));
         }
         this.setChartType(model.get("chartType") || "barChart");
+                        
+        // Set last filter uuid.  This will drive fetchCollection if a filter is defined
+        this.setLastFilter();
   
         //  If the measure is defined, fill in the queryTemplate
         //  and ask the Collection to get data.

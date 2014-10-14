@@ -6,11 +6,7 @@ trailing:true, white:true*/
 (function () {
   "use strict";
 
-  XT.extensions.bi_open = {
-    setVersion: function () {
-      XT.setVersion("4.6.0", "bi_open");
-    }
-  };
+  XT.extensions.bi_open = {};
 
   _.extend(XT, {
     /*
@@ -91,7 +87,7 @@ trailing:true, white:true*/
       _.each(filterSet, function (filter, index) {
         query = index === 0 ? query + " WHERE (" : query;
         comma = index > 0 ? ", " : "";
-        query += comma + filter;
+        query += comma + filter.dimension + ".[" + filter.value + "]";
       });
       if (query.indexOf(" WHERE (") !== -1) {
         query += ")";
@@ -128,6 +124,10 @@ trailing:true, white:true*/
    *
    *   Note we are given a dimension's level, but we want the children, so we
    *   go back up to the hierarchy and then get the children.
+   *   
+   *   Todo:  Mondrian has trouble ordering with count measures, like "Days, Start to Actual".
+   *   So we sort in processData as the list is small.  Try this out in later releases of Mondrian:
+   *   "ORDER({filter(TopCount($dimensionHier.Hierarchy.Children, 50, [Measures].[THESUM]),[Measures].[THESUM]>0) }, [Measures].[THESUM], DESC)
    */
   XT.mdxQueryTopList.prototype = _.extend(Object.create(XT.mdxQuery.prototype), {
       members: [
@@ -143,7 +143,7 @@ trailing:true, white:true*/
         "[Measures].[NAME]"
       ],
       rows: [
-        "ORDER({filter(TopCount($dimensionHier.Hierarchy.Children, 50, [Measures].[THESUM]),[Measures].[THESUM]>0) }, [Measures].[THESUM], DESC)"
+        "{filter(TopCount($dimensionHier.Hierarchy.Children, 50, [Measures].[THESUM]),[Measures].[THESUM]>0)}"
       ],
       cube: "",
       where: []

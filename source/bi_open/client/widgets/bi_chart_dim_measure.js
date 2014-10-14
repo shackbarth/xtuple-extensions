@@ -87,6 +87,9 @@ trailing:true, white:true*/
           this.setDimension(model.get("dimension"));
         }
         
+        // Set last filter uuid.  This will drive fetchCollection if a filter is defined
+        this.setLastFilter();
+        
         // If the measure and dimension are defined, fill in the queryTemplate
         // and ask the Collection to get data.
         if (this.getMeasure() && this.getDimension()) {
@@ -104,8 +107,7 @@ trailing:true, white:true*/
           dimPicked = that.schema.getDimensionHier(that.getCube(), that.getDimension());
         this.inherited(arguments);
         _.each(this.where, function (filter, index) {
-          dimFilter = filter.substring(0, dimPicked.length);
-          if (dimFilter === dimPicked) {
+          if (filter.dimension === dimPicked) {
             that.where.splice(index, 1);
           }
         });

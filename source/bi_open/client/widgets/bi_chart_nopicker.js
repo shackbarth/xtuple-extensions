@@ -41,6 +41,9 @@ trailing:true, white:true*/
       var that = this,
         model = this.getModel();
       this.inherited(arguments);
+      
+      // Set last filter uuid.  This will drive fetchCollection if a filter is defined
+      this.setLastFilter();
                      
       //  Fill in the queryTemplate and ask the Collection to get data.
       this.updateQueries();

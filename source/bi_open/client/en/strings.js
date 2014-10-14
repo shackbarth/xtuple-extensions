@@ -53,7 +53,7 @@ strict:true, trailing:true, white:true */
     "_measure": "Measure",
     "_measureName": "Measure Name",
     "_month": "Month",
-    "_next6Months": "Next 6 Months",
+    "_next3Months": "Next 3 Months",
     "_opportunity": "Opportunity",
     "_opportunitiesActiveNext": "Opportunities Next 6 months",
     "_opportunityForecastTrailing": "Opportunity Forecast",

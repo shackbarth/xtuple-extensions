@@ -126,6 +126,7 @@ trailing:true, white:true*/
         year = Number(figure.cx.substr(0, 4)),
         month = Number(figure.cx.substr(5)) - 1,
         measure = figure.key,
+        parameterItemValues = this.drillDown[0].parameters,
         startDate = new Date(),
         endDate = new Date(),
         params = [],
@@ -146,8 +147,15 @@ trailing:true, white:true*/
       }
       startDate.setFullYear(year, month, 1);
       endDate.setFullYear(year, month + 1, 0);
-      this.drillDown[0].parameters[0].value = startDate;
-      this.drillDown[0].parameters[1].value = endDate;
+      parameterItemValues[0].value = startDate;
+      parameterItemValues[1].value = endDate;
+      //
+      // Add where clause filters to parameter values
+      //
+      _.each(this.where, function (filter) {
+        var parmItem = {name: filter.attribute, operator: filter.operator, value: filter.value};
+        parameterItemValues.push(parmItem);
+      });
 
       // TODO: the parameter widget sometimes has trouble finding our query requests
 
@@ -157,7 +165,7 @@ trailing:true, white:true*/
         list: listKind,
         searchText: "",
         callback: callback,
-        parameterItemValues: this.drillDown[0].parameters,
+        parameterItemValues: parameterItemValues,
         conditions: [],
         query: null
       });

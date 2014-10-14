@@ -127,6 +127,14 @@ trailing:true, white:true*/
       }
       this.$.chartTitle.setContent(this.makeTitle()); // Set the chart title
       this.$.chartSubTitle.setContent(this.getChartSubTitle()); // Set the chart sub title
+      //
+      //  See comments in core about the need to sort here
+      //
+      if (formattedData.length !== 0) {
+        var sortedFormattedData = _.sortBy(formattedData[0].values, 'Measure');
+        sortedFormattedData.reverse();
+        formattedData[0].values = sortedFormattedData;
+      }
       this.setProcessedData(formattedData); // This will drive processDataChanged which will call plot
     },
 
@@ -215,8 +223,8 @@ trailing:true, white:true*/
       Set chart plot size using max sizes from dashboard.
      */
     setPlotSize: function (maxHeight, maxWidth) {
-      this.setPlotWidth(Number(maxWidth) - 100);
-      this.setPlotHeight(Number(maxHeight) - 196);
+      this.setPlotWidth(Number(maxWidth) - 40);
+      this.setPlotHeight(Number(maxHeight) - 80);
     },
     /**
       Create chart plot area.  Destroy if already created.
@@ -229,7 +237,7 @@ trailing:true, white:true*/
           {name: "svg",
             tag: this.getChartTag(),
             content: " ",
-            attributes: {width: this.getMaxWidth() - 40, height: this.getMaxHeight() - 80}
+            attributes: {width: this.getPlotWidth(), height: this.getPlotHeight()}
             }
           );
       this.$.chart.render();

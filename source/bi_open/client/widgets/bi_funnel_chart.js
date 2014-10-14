@@ -128,6 +128,7 @@ trailing:true, white:true*/
         listKind = XV.getList(recordType),
         year = thisEnyo.getEndDate().getFullYear(),
         month = thisEnyo.getEndDate().getMonth(),
+        drillDown = thisEnyo.drillDown,
         startDate = new Date(),
         endDate = new Date(),
         params = [],
@@ -141,10 +142,17 @@ trailing:true, white:true*/
 
       startDate.setFullYear(year, month - 11, 1);
       endDate.setFullYear(year, month + 1, 0);
-      thisEnyo.drillDown[indexDD].parameters[0].value = startDate;
-      thisEnyo.drillDown[indexDD].parameters[1].value = endDate;
-      thisEnyo.drillDown[indexDD].parameters[2].value = startDate;
-      thisEnyo.drillDown[indexDD].parameters[3].value = endDate;
+      drillDown[indexDD].parameters[0].value = startDate;
+      drillDown[indexDD].parameters[1].value = endDate;
+      drillDown[indexDD].parameters[2].value = startDate;
+      drillDown[indexDD].parameters[3].value = endDate;
+      //
+      // Add where clause filters to parameter values
+      //
+      _.each(thisEnyo.where, function (filter) {
+        var parmItem = {name: filter.attribute, operator: filter.operator, value: filter.value};
+        drillDown[indexDD].parameters.push(parmItem);
+      });
 
       // TODO: the parameter widget sometimes has trouble finding our query requests
 
@@ -154,7 +162,7 @@ trailing:true, white:true*/
         list: listKind,
         searchText: "",
         callback: callback,
-        parameterItemValues: thisEnyo.drillDown[indexDD].parameters,
+        parameterItemValues: drillDown[indexDD].parameters,
         conditions: [],
         query: null
       });
@@ -196,8 +204,8 @@ trailing:true, white:true*/
       Set chart plot size using max sizes from dashboard.
      */
     setPlotSize: function (maxHeight, maxWidth) {
-      this.setPlotWidth(Number(maxWidth) - 100);
-      this.setPlotHeight(Number(maxHeight) - 196);
+      this.setPlotWidth(Number(maxWidth) - 40);
+      this.setPlotHeight(Number(maxHeight) - 80);
     },
     /**
       Create chart plot area.  Destroy if already created.
@@ -210,7 +218,7 @@ trailing:true, white:true*/
           {name: "svg",
             tag: this.getChartTag(),
             content: " ",
-            attributes: {width: this.getMaxWidth() - 40, height: this.getMaxHeight() - 80}
+            attributes: {width: this.getPlotWidth(), height: this.getPlotHeight()}
             }
           );
       this.$.chart.render();

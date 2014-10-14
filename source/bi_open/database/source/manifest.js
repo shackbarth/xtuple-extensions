@@ -1,13 +1,13 @@
 {
   "name": "bi_open",
-  "version": "4.6.0",
+  "version": "",
   "comment": "Business Intelligence",
   "loadOrder": 50,
   "dependencies": [],
   "databaseScripts": [
     "create-bi-open-schema.sql",
     "usrbichart.sql",
-    "register.sql"
+    "public/tables/metric.sql"
   ],
   "routes": [
     {

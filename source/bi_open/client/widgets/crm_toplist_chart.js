@@ -29,7 +29,7 @@ trailing:true, white:true*/
           {name: "number", operator: "MATCHES", value: ""},
         ]
         },
-        {dimension: "accountRep",
+        {dimension: "salesRep",
            attr: "number",
            recordType: "XM.SalesRepRelation",
            collection: "XM.SalesRepRelationCollection",
@@ -84,7 +84,7 @@ trailing:true, white:true*/
           {name: "number", operator: "MATCHES", value: ""},
         ]
         },
-        {dimension: "accountRep",
+        {dimension: "salesRep",
            attr: "number",
            recordType: "XM.SalesRepRelation",
            collection: "XM.SalesRepRelationCollection",
@@ -227,10 +227,15 @@ trailing:true, white:true*/
       queryTemplates: [
         _.extend(new XT.mdxQueryTopList(),
           {cube: "CROpportunity",
-             where: ["[Opportunity.Opportunity by Status by Stage].[Active]"]
+          where: [
+            {attribute: null,
+               dimension: "[Opportunity.Opportunity by Status by Stage].[Opportunity Status]",
+               operator: "=",
+               value: "Active"}
+          ]
           }
         )
-      ],
-    });
+        ],
+      });
 
   }());
