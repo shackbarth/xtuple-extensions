@@ -118,19 +118,13 @@ trailing:true, white:true*/
      */
     clickDrill: function (field, figure) {
       var that = this,
-        itemCollectionName = this.drillDown[0].collection,
-        ItemCollectionClass = itemCollectionName ? XT.getObjectByName(itemCollectionName) : false,
-        itemCollection = new ItemCollectionClass(),
-        recordType = itemCollection.model.prototype.recordType,
-        listKind = XV.getList(recordType),
+        itemCollectionName = this.drillDown[0] ? this.drillDown[0].collection : null,
         year = Number(figure.cx.substr(0, 4)),
         month = Number(figure.cx.substr(5)) - 1,
         measure = figure.key,
-        parameterItemValues = this.drillDown[0].parameters,
         startDate = new Date(),
         endDate = new Date(),
         params = [],
-        
         callback = function (value) {
           var id = value.get(that.drillDown[0].attr);
           if (id) {
@@ -138,37 +132,45 @@ trailing:true, white:true*/
           }
           // TODO: do anything if id is not present?
         };
+        
+      if (itemCollectionName) {
+        var ItemCollectionClass = XT.getObjectByName(itemCollectionName),
+          itemCollection = new ItemCollectionClass(),
+          recordType = itemCollection.model.prototype.recordType,
+          listKind = XV.getList(recordType),
+          parameterItemValues = this.drillDown[0].parameters;
 
-      //
-      // Set up date parms for search using the 1st to EOM in year selected or in previous year.
-      //
-      if (measure.indexOf("Previous Year") !== -1) {
-        year--;
+        //
+        // Set up date parms for search using the 1st to EOM in year selected or in previous year.
+        //
+        if (measure.indexOf("Previous Year") !== -1) {
+          year--;
+        }
+        startDate.setFullYear(year, month, 1);
+        endDate.setFullYear(year, month + 1, 0);
+        parameterItemValues[0].value = startDate;
+        parameterItemValues[1].value = endDate;
+        //
+        // Add where clause filters to parameter values
+        //
+        _.each(this.where, function (filter) {
+          var parmItem = {name: filter.attribute, operator: filter.operator, value: filter.value};
+          parameterItemValues.push(parmItem);
+        });
+  
+        // TODO: the parameter widget sometimes has trouble finding our query requests
+  
+        listKind = XV.getList(recordType);
+        
+        this.doSearch({
+          list: listKind,
+          searchText: "",
+          callback: callback,
+          parameterItemValues: parameterItemValues,
+          conditions: [],
+          query: null
+        });
       }
-      startDate.setFullYear(year, month, 1);
-      endDate.setFullYear(year, month + 1, 0);
-      parameterItemValues[0].value = startDate;
-      parameterItemValues[1].value = endDate;
-      //
-      // Add where clause filters to parameter values
-      //
-      _.each(this.where, function (filter) {
-        var parmItem = {name: filter.attribute, operator: filter.operator, value: filter.value};
-        parameterItemValues.push(parmItem);
-      });
-
-      // TODO: the parameter widget sometimes has trouble finding our query requests
-
-      listKind = XV.getList(recordType);
-      
-      this.doSearch({
-        list: listKind,
-        searchText: "",
-        callback: callback,
-        parameterItemValues: parameterItemValues,
-        conditions: [],
-        query: null
-      });
     },
 
     plot: function (type) {
