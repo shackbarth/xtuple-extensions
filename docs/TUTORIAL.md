@@ -3,7 +3,7 @@
 
 ## Overview
 
-Suppose you are working with a prospect who is excited to use xTuple, but is balking at one critical missing feature. The prospect needs to be able to profile each contact's favorite ice cream flavor. The list of possible ice cream flavors must be fully customizable and include the calorie count. Furthermore, users must be able to filter contacts by ice cream flavor. This data is going to be the lynchpin of an upcoming multichannel promotional campaign that the prospect is about to wage, and they cannot live without it. 
+Suppose you are working with a prospect who is excited to use xTuple, but is balking at one critical missing feature. The prospect needs to be able to profile each contact's favorite ice cream flavor. The list of possible ice cream flavors must be fully customizable and include the calorie count. Furthermore, users must be able to filter contacts by ice cream flavor. This data is going to be the lynchpin of an upcoming multichannel promotional campaign that the prospect is about to wage, and they cannot live without it. s
 
 Using characteristics is not an option, because they do not want to have to hit the `New` button, and, as we'll see, their requirements are going to end using some fairly sophisticated business logic, which is beyond the scope of simple characteristics.
 
@@ -251,12 +251,12 @@ XT.extensions.icecream.initList = function () {
     components: [
       {kind: "XV.ListItem", components: [
         {kind: "FittableColumns", components: [
-          {kind: "XV.ListColumn", classes: "short",
+          {kind: "XV.ListColumn", classes: "medium",
             components: [
             {kind: "XV.ListAttr", attr: "name", isKey: true},
             {kind: "XV.ListAttr", attr: "description"}
           ]},
-          {kind: "XV.ListColumn", classes: "last", fit: true, components: [
+          {kind: "XV.ListColumn", fit: true, components: [
             {kind: "XV.ListAttr", attr: "calories"}
           ]}
         ]}
