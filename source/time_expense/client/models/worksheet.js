@@ -104,7 +104,7 @@ white:true*/
               // If request is stale, forget about the whole thing
               if (i < that._counter) { return; }
               ary.push(quantity * baseUnitCost);
-              
+
               // When all expenses accounted for, add 'em up
               if (ary.length === expenses.length) {
                 total = add(ary, scale);
@@ -177,7 +177,7 @@ white:true*/
 
         time.sort();
         expenses.sort();
-        
+
         // Renumber time and expenses
         renumber(this.get("time").models);
         renumber(this.get("expenses").models);
@@ -407,7 +407,7 @@ white:true*/
       ratioKey: "billingRate",
 
       totalsMethod: "calculateHours",
-      
+
       billableDidChange: function () {
         var billable = this.get("billable"),
           worksheet = this.getParent(),
@@ -525,104 +525,6 @@ white:true*/
     });
 
     /**
-     @class
-
-     @extends XM.Model
-    */
-    XM.WorksheetAccount = XM.Model.extend({
-     /** @scope XM.WorksheetAccount.prototype */
-
-      recordType: "XM.WorksheetAccount",
-
-      isDocumentAssignment: true
-
-    });
-
-    /**
-     @class
-
-     @extends XM.Model
-    */
-    XM.WorksheetContact = XM.Model.extend({
-     /** @scope XM.WorksheetContact.prototype */
-
-      recordType: "XM.WorksheetContact",
-
-      isDocumentAssignment: true
-
-    });
-
-    /**
-     @class
-
-     @extends XM.Model
-    */
-    XM.WorksheetIncident = XM.Model.extend({
-     /** @scope XM.WorksheetIncident.prototype */
-
-      recordType: "XM.WorksheetIncident",
-
-      isDocumentAssignment: true
-
-    });
-
-    /**
-     @class
-
-     @extends XM.Model
-    */
-    XM.WorksheetItem = XM.Model.extend({
-     /** @scope XM.WorksheetItem.prototype */
-
-      recordType: "XM.WorksheetItem",
-
-      isDocumentAssignment: true
-
-    });
-
-    /**
-     @class
-
-     @extends XM.Model
-    */
-    XM.WorksheetFile = XM.Model.extend({
-     /** @scope XM.WorksheetFile.prototype */
-
-      recordType: "XM.WorksheetFile",
-
-      isDocumentAssignment: true
-
-    });
-
-    /**
-     @class
-
-     @extends XM.Model
-    */
-    XM.WorksheetUrl = XM.Model.extend({
-     /** @scope XM.WorksheetUrl.prototype */
-
-      recordType: "XM.WorksheetUrl",
-
-      isDocumentAssignment: true
-
-    });
-
-    /**
-     @class
-
-     @extends XM.Model
-    */
-    XM.WorksheetProject = XM.Model.extend({
-     /** @scope XM.WorksheetProject.prototype */
-
-      recordType: "XM.WorksheetProject",
-
-      isDocumentAssignment: true
-
-    });
-
-    /**
       @class
 
       @extends XM.Info
@@ -698,6 +600,11 @@ white:true*/
     });
 
     XM.WorksheetListItem = XM.WorksheetListItem.extend(XM.WorksheetMixin);
+
+    XT.documentAssociations.TO = {
+      model: "XM.WorksheetListItem",
+      label: "_worksheet".loc()
+    };
 
     /** @private */
     var _canDo = function (qualified, reqStatus, callback) {

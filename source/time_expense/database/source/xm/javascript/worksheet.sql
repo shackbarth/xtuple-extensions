@@ -32,6 +32,8 @@ select xt.install_js('XM','Worksheet','xtte', $$
   
   XM.Worksheet.isDispatchable = true;
 
+  XT.documentAssociations.TE = "WorksheetListItem";
+
   /**
     Approve a Worksheet 
 
