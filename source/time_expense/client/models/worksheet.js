@@ -601,7 +601,7 @@ white:true*/
 
     XM.WorksheetListItem = XM.WorksheetListItem.extend(XM.WorksheetMixin);
 
-    XT.documentAssociations.TO = {
+    XT.documentAssociations.TE = {
       model: "XM.WorksheetListItem",
       label: "_worksheet".loc()
     };
