@@ -285,6 +285,7 @@
           "type": "DocumentAssociation",
           "column": "tehead_id",
           "inverse": "source",
+          "sourceType": "TE",
           "isNested": true
         }
      },
