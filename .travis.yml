@@ -1,30 +1,34 @@
-language: node_js
-node_js:
-  - "0.8"
+language: c
 
 install:
-  - "cd .."
-  - "git clone git://github.com/xtuple/xtuple.git --recursive"
-  - "cd xtuple"
-  - "bash scripts/install_xtuple.sh -ipn"
-  - "cp test/lib/login_data.js ../xtuple-extensions/test/lib/login_data.js"
-  - "cd ../xtuple-extensions"
-  - "npm install"
-  - "npm run-script test-build"
-  - "mv sample/xtuple-ice-cream source"
-  - "mkdir -p test/xtuple-ice-cream/specs"
-  - "cp source/xtuple-ice-cream/test/* test/xtuple-ice-cream/specs"
-  - "../xtuple/scripts/build_app.js -e source/xtuple-ice-cream"
+  - npm install
+  - wget xtuple.com/bootstrap -qO- | sudo bash
+  - /usr/local/bin/npm install -g xtuple-server
+  - cd ..
+  - git clone git://github.com/xtuple/xtuple.git --recursive
+  - cd xtuple
+  - git checkout $TRAVIS_BRANCH
+  - /usr/local/bin/npm install
+  - sudo xtuple-server install-dev --xt-version $TRAVIS_BRANCH --xt-demo
+  - cd ../xtuple-extensions
+  - /usr/local/bin/npm run-script test-build
+  - mv sample/xtuple-ice-cream source
+  - mkdir -p test/xtuple-ice-cream/specs
+  - cp source/xtuple-ice-cream/test/* test/xtuple-ice-cream/specs
+  - ../xtuple/scripts/build_app.js -e source/xtuple-ice-cream
 
 before_script:
-  - "cd ../xtuple/node-datasource"
-  - "node main.js &"
-  - "sleep 10"
-  - "cd .."
+  - cd ../xtuple
+  - n 0.10.32
+  - /usr/local/bin/npm start &
+  - sleep 10
 
 script:
-  - "npm test"
-  - "npm run-script test-datasource"
-  - "cd ../xtuple-extensions"
-  - "npm test"
-  - "../xtuple/node_modules/.bin/jshint --exclude source/bi_open/client/lib source"
+  - /usr/local/bin/npm test
+  - cd ../xtuple-extensions
+  - /usr/local/bin/npm test
+  - ../xtuple/node_modules/.bin/jshint --exclude source/bi_open/client/lib source
+
+after_failure:
+  - ls -l /var/log/xtuple
+  - sudo tail -n 100000 /var/log/xtuple/travis-v470-dev-forever.log
