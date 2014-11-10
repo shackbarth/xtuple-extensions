@@ -7,9 +7,9 @@ install:
   - cd ..
   - git clone git://github.com/xtuple/xtuple.git --recursive
   - cd xtuple
-  - git checkout $TRAVIS_BRANCH
+  - git checkout 4_8_x
   - /usr/local/bin/npm install
-  - sudo xtuple-server install-dev --xt-version $TRAVIS_BRANCH --xt-demo
+  - sudo xtuple-server install-dev --xt-version 4_8_x --xt-demo
   - cd ../xtuple-extensions
   - /usr/local/bin/npm run-script test-build
   - mv sample/xtuple-ice-cream source
