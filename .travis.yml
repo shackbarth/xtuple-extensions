@@ -2,15 +2,16 @@ language: c
 
 install:
   - npm install
-  - wget xtuple.com/bootstrap -qO- | sudo bash
-  - /usr/local/bin/npm install -g xtuple-server
   - cd ..
   - git clone git://github.com/xtuple/xtuple.git --recursive
   - cd xtuple
   - git checkout 4_8_x
-  - /usr/local/bin/npm install
+  - npm install
+  - wget xtuple.com/bootstrap -qO- | sudo bash
+  - /usr/local/bin/npm install -g xtuple-server
   - sudo xtuple-server install-dev --xt-version 4_8_x --xt-demo
   - cd ../xtuple-extensions
+  - n 0.10.32
   - /usr/local/bin/npm run-script test-build
   - mv sample/xtuple-ice-cream source
   - mkdir -p test/xtuple-ice-cream/specs
@@ -19,7 +20,6 @@ install:
 
 before_script:
   - cd ../xtuple
-  - n 0.10.32
   - /usr/local/bin/npm start &
   - sleep 10
 
